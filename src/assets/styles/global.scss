@@ -1,0 +1,138 @@
+/** 基础通用 **/
+@for $i from 1 through 300 {
+  .mt#{$i} {
+    margin-top: $i * 1px;
+  }
+  .mr#{$i} {
+    margin-right: $i * 1px;
+  }
+  .mb#{$i} {
+    margin-bottom: $i * 1px;
+  }
+  .ml#{$i} {
+    margin-left: $i * 1px;
+  }
+  .pt#{$i} {
+    padding-top: $i * 1px;
+  }
+  .pl#{$i} {
+    padding-left: $i * 1px;
+  }
+  .pr#{$i} {
+    padding-right: $i * 1px;
+  }
+  .pb#{$i} {
+    padding-bottom: $i * 1px;
+  }
+  .pall#{$i} {
+    padding: $i * 1px;
+  }
+
+  .fs#{$i} {
+    font-size: $i * 1px;
+  }
+  .w#{$i} {
+    width: $i * 1px;
+  }
+  .h#{$i} {
+    height: $i * 1px;
+  }
+  .lh#{$i} {
+    line-height: $i * 1px;
+  }
+  .br#{$i} {
+    border-radius: $i * 1px;
+  }
+}
+
+.tr {
+  text-align: right;
+}
+.ta {
+  text-align: center;
+}
+.flex1 {
+  flex: 1;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-align {
+  display: flex;
+  align-items: center;
+}
+
+.flex-align-justify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-align-end {
+  display: flex;
+  align-items: end;
+}
+
+.b {
+  font-weight: bold;
+}
+
+.re-skeleton__item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #f2f2f2 25%, #e6e6e6 37%, #f2f2f2 63%);
+  background-size: 400% 100%;
+  border-radius: 8px;
+
+  &.animate {
+    animation: re-skeleton-loading 1.4s ease infinite;
+  }
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    fill: #dcdde0;
+    width: 30%;
+    height: 30%;
+  }
+}
+
+@keyframes re-skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  to {
+    background-position: 0 50%;
+  }
+}
+// customized tooltip
+.el-popper.is-customized {
+  padding: 8px;
+  background: #000;
+  color: #fff;
+  max-width: 256px;
+  font-size: 14px;
+  font-family: 'Lexend Deca';
+  font-style: normal;
+}
+
+
+.el-button {
+  min-width: 120px;
+}
+
+.dark {
+  background-color: #000;
+}
