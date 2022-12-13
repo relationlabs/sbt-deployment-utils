@@ -82,13 +82,13 @@ const onDeployWorldcup = async () => {
     <el-card class="box-card" :class="{ 'current-step': store.step === 'deploy' }">
       <template #header>
         <div class="card-header">
-          <h1>1. Contractual deployment</h1>
+          <h1>1. Contract deployment</h1>
         </div>
       </template>
       <div class="card-info">
         <div class="flex">
           <p class="pr20">
-            *SBT contract is the data contract of Semantic SBT and the contract
+            SBT contract is the data contract of Semantic SBT and the contract
             queried by third-party platforms (such as opensea)
           </p>
           <el-button
@@ -110,7 +110,7 @@ const onDeployWorldcup = async () => {
         </div>
         <div class="flex">
           <p class="pr20">
-            *The verification contract is used to complete business settings. To
+            The verification contract is used to complete business settings. To
             add a white list, you need to deploy the contract
           </p>
           <el-button

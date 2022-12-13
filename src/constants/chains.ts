@@ -1,4 +1,15 @@
 // chain node info
+export const ethereumChain = {
+  chainId: '0x1',
+  chainName: 'Ethereum',
+  rpcUrls: ['https://mainnet.infura.io/v3/'] /* ... */,
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18
+  }
+}
+
 export const polygonChain = {
   chainId: '0x89',
   chainName: 'Polygon Mainnet',
@@ -70,6 +81,8 @@ export const moonbeamTestChain = {
 }
 
 export const chainNameIdMap: any = {
+  ethereum: 1,
+
   polygon: 137,
   mumbai: 80001,
 
@@ -81,6 +94,8 @@ export const chainNameIdMap: any = {
 }
 
 export const chainIdNameMap: any = {
+  1: 'ethereum',
+  
   137: 'polygon',
   80001: 'mumbai',
   

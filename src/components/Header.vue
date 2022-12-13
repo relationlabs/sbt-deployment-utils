@@ -6,6 +6,7 @@
     polygonChain,
     platonChain,
     moonbeamChain,
+    ethereumChain,
   } from '@/constants/chains'
   const store = useDeployStore()
 
@@ -28,9 +29,10 @@
   })
 
   const chains = [
+    { id: parseInt(ethereumChain.chainId), name: 'Ethereum', icon: 'eth' },
     { id: parseInt(polygonChain.chainId), name: 'Polygon', icon: 'polygon' },
+    { id: parseInt(moonbeamChain.chainId), name: 'Moonbeam', icon: 'moonbeam' },
     { id: parseInt(platonChain.chainId), name: 'PlatON', icon: 'platon' },
-    { id: parseInt(moonbeamChain.chainId), name: 'Moonbeam', icon: 'moonbeam' }
   ]
   const currentSelectChain = ref()
 
@@ -83,11 +85,15 @@
       // 
     }
   })
+
+  const toHome = () => {
+    store.resetDeployState(store);
+  }
 </script>
 <template>
   <div class="head-wrap">
     <div class="part flex">
-      <div class="flex-align">
+      <div class="flex-align logo-wrap" @click="toHome">
         <el-image class="logo h36 mr20" :src="$getImgUrl('logo.png')" />
       </div>
       <div class="flex-align login-btn-wrap">
@@ -135,6 +141,9 @@
   background: rgb(0,0,0);
   height: 100px;
 
+  .logo-wrap {
+    cursor: pointer;
+  }
   .logo-name {
     font-weight: 400;
     font-size: 14px;

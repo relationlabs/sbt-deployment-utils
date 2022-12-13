@@ -4,7 +4,8 @@ import {
   platonTest2Chain,
   platonChain,
   moonbeamChain,
-  moonbeamTestChain
+  moonbeamTestChain,
+  ethereumChain,
 } from './../constants/chains'
 import { ethers, providers } from 'ethers'
 
@@ -12,6 +13,8 @@ import { ethers, providers } from 'ethers'
 const defaultChain =
   import.meta.env.MODE === 'production' ? polygonChain : mumbaiChain
 const chainMap: any = {
+  1: ethereumChain,
+  
   137: polygonChain,
   80001: mumbaiChain,
 

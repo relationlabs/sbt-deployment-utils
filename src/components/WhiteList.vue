@@ -104,17 +104,17 @@ const closeDialog = () => {
     <el-card class="box-card" :class="{ 'current-step': store.step === 'whiteList' }">
       <template #header>
         <div class="card-header">
-          <h1><span v-if="store.startFrom !== 'whiteList'">4. </span>Set Whitelist</h1>
+          <h1><span v-if="store.startFrom !== 'whiteList'">4. </span>Add Whitelist</h1>
         </div>
       </template>
       
       <div class="card-info">
         <el-row justify="space-between" align="top" class="mb20">
           <div class="pr20">
-            <div class="mb20">
-              设置白名单，这里允许批量输入地址，用“,”分隔即可，建议单次添加1000个地址以内，太多地址可能会上链的大小限制。 
-            </div>  
-            <VList v-if="store.whiteList.length" />
+            <div v-if="store.whiteList.length">
+              <div class="mb14">Whitelist</div>
+              <VList />
+            </div>
           </div>
           <div>
             <el-button
@@ -123,42 +123,42 @@ const closeDialog = () => {
               @click="openDialog"
               :disabled="store.step !== 'whiteList'"
             >
-              add
+              Add
             </el-button>
           </div>
         </el-row>
       </div>
     </el-card>
 
-
     <el-dialog
       v-model="dialogVisible"
-      title="Initialize SBT contract"
+      title="Add Whitelist"
       width="950px"
       :before-close="closeDialog"
       :close-on-click-modal="false"
     >
+      <div class="whitelist-desc">Please enter all whitelist address separated by “,” or “enter”.</div>
       <el-form
         :model="form"
-        label-width="82px"
+        
         ref="ruleFormRef"
         :rules="rules"
         @submit.prevent
+        class="whitelist-form"
       >
-        <el-form-item label="Whitelist" prop="whitelist">
-          <div>
-            <div class="flex-row whitelist-input">
-              <div class="left">
-                <el-input
-                  :autosize="{ minRows: 16 }"
-                  type="textarea"
-                  v-model="form.whitelist"
-                />
-              </div>
-              <div class="right">
-                <div>Existing whitelists</div>
-                <VList />
-              </div>
+        <el-form-item label="" prop="whitelist" label-width="0px">
+          <div class="flex-row whitelist-input">
+            <div class="left">
+              <div>Address</div>
+              <el-input
+                :autosize="{ minRows: 16 }"
+                type="textarea"
+                v-model="form.whitelist"
+              />
+            </div>
+            <div class="right">
+              <div>Whitelist</div>
+              <VList />
             </div>
           </div>
         </el-form-item>
@@ -176,21 +176,35 @@ const closeDialog = () => {
 </template>
 
 <style lang="scss">
-.whitelist-input {
-  width: 810px;
-  .left {
-    flex: 1;
-    width: 400px;
-    margin-right: 24px;
+.whitelist-desc {
+  margin-bottom: 14px;
+}
+.whitelist-form {
+  .is-required {
+    .el-form-item__label {
+      &::before {
+        display: none;
+      }
+    }
   }
-  .right {
-    flex: 1;
-    width: 400px;
-    height: 312px;
-    .addr-list, .container {
-      height: 100%;
-      box-sizing: border-box;
+  .whitelist-input {
+    // width: 810px;
+    width: 100%;
+    .left {
+      flex: 1;
+      width: 400px;
+      margin-right: 24px;
+    }
+    .right {
+      flex: 1;
+      width: 400px;
+      .addr-list, .container {
+        height: 346px;
+        box-sizing: border-box;
+      }
     }
   }
 }
+  
+
 </style>

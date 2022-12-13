@@ -101,18 +101,7 @@ const initContract = async () => {
           <el-form-item label="Object" prop="activityName">
             <div>
               <el-input v-model="form.activityName" class="activity-input" />
-              <div>
-                If SBT is an activity, please fill in the name of the
-                activity,like"RelationlabsMembership".
-              </div>
-              <div>
-                验证合约的初始化只需要设置Object1个参数，设置为SBT的活动名称即可，类似“RelationlabsMembership”。 
-              </div>
-              <div>
-                完成第三步后，所有的部署及初始化工作都已经完成了，大家可以将合约地址同步给我们进行Mint的联合测试。 
-              </div>
             </div>
-            
           </el-form-item>
         </el-form>
           <el-button
@@ -121,7 +110,7 @@ const initContract = async () => {
             :disabled="disabled || store.step !== 'initWorldCup' || initSuccess"
             @click="initContract"
           >
-            {{ initSuccess ? 'Completed' : 'Initialize'}}
+            {{ initSuccess ? 'Completed' : 'Set'}}
           </el-button>
         </el-row>
 

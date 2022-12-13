@@ -179,7 +179,7 @@ const closeInitializeDialog = () => {
             :loading="loading"
             @click="openInitializeDialog"
           >
-            {{ initSuccess ? 'Completed' : 'Deploy' }}
+            {{ initSuccess ? 'Completed' : 'Set' }}
           </el-button>
         </el-row>
       </div>
@@ -205,7 +205,7 @@ const closeInitializeDialog = () => {
         <el-form-item label="Contract Symbol" prop="contractSymbol">
           <el-input v-model="form.contractSymbol" />
         </el-form-item>
-        <el-form-item label="Baseuri" prop="metadataUri">
+        <el-form-item label="baseURI" prop="metadataUri">
           <el-input v-model="form.metadataUri" />
           <div class="lh24 fs12">
             You can build the baseurl like ERC721, and upload the directory
@@ -214,24 +214,12 @@ const closeInitializeDialog = () => {
         </el-form-item>
         <el-form-item label="schemaURI" prop="schemaURI">
           <el-input v-model="form.schemaURI" />
-          <div class="lh24 fs12">
-            We have prefabricated the schema of the activity type. You can not
-            modify it
-          </div>
         </el-form-item>
         <el-form-item label="className" prop="className">
           <el-input v-model="form.className" />
-          <div class="lh24 fs12">
-            We have prefabricated the schema of the activity type. You can not
-            modify it
-          </div>
         </el-form-item>
         <el-form-item label="predicate" prop="predicate">
           <el-input v-model="form.predicate" />
-          <div class="lh24 fs12">
-            We have prefabricated the schema of the activity type. You can not
-            modify it
-          </div>
         </el-form-item>
       </el-form>
       <template #footer>

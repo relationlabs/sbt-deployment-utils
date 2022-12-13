@@ -3,8 +3,8 @@ import useDeployStore from '@/store/deploy'
 import { ElMessageBox } from 'element-plus'
 
 const mode = import.meta.env.MODE
-const limitChain = [80001, 210425, 1284, 137, 2206132]
-const net = 'Polygon/Platon/Moonbeam/Mumbai/PlatON Dev Testnet2'
+const limitChain = [80001, 210425, 1284, 137, 2206132, 1]
+const net = 'Ethereum/Polygon/Moonbeam/PlatON'
 const scanMap: any = {
   137: 'https://polygonscan.com/tx/',
   1284: 'https://moonbeam.moonscan.io/tx/',

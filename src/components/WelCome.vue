@@ -42,14 +42,14 @@ const closeDialog = () => {
     <el-card class="box-card" :class="{ 'current-step': !store.startFrom }">
       <template #header>
         <div class="card-header">
-          <h1>部署新的合约</h1>
+          <h1>Create New SBT Contract</h1>
         </div>
       </template>
       <div class="card-info">
         <el-row justify="space-between" align="top" class="mb20">
           <div class="pr20">
             <div class="mb20">
-              验证合约是为了业务校验设置白名单的合约，是为本次活动的规则添加的业务合约。
+              Try to create a new contract according to the template of the Semantic SBT contract.
             </div>  
           </div>
           <div>
@@ -68,14 +68,14 @@ const closeDialog = () => {
     <el-card class="box-card" :class="{ 'current-step': !store.startFrom }">
       <template #header>
         <div class="card-header">
-          <h1>验证合约白名单</h1>
+          <h1>Functional Testing</h1>
         </div>
       </template>
       <div class="card-info">
         <el-row justify="space-between" align="top" class="mb20">
           <div class="pr20">
             <div class="mb20">
-              验证合约是为了业务校验设置白名单的合约，是为本次活动的规则添加的业务合约。
+              Input or select a Semantic SBT contract address you deployed, and test the “addWhiteList” and “Mint” function.
             </div>  
           </div>
           <div>
@@ -93,24 +93,24 @@ const closeDialog = () => {
   </div>
   <el-dialog
     v-model="dialogVisible"
-    title="选择合约"
+    title="Functional Testing"
     width="800px"
     :before-close="closeDialog"
     :close-on-click-modal="false"
   >
     <el-form
       :model="addrForm"
-      label-width="82px"
+      label-width="185px"
       ref="ruleFormRef"
       :rules="rules"
       @submit.prevent
       class="flex-row contract-start-form"
     >
-      <el-form-item label="输入合约" prop="inputAddr">
+      <el-form-item label="Input Contract Address" prop="inputAddr">
         <el-input v-model="addrForm.inputAddr" class="input-addr" />
       </el-form-item>
 
-      <el-form-item label="合约列表">
+      <el-form-item label="Contracts">
         <div class="contract-wrap">
           <div
             class="addr-item"
@@ -146,7 +146,6 @@ const closeDialog = () => {
 </style>
 <style lang="scss">
 .contract-start-form {
-  justify-content: center;
   flex-wrap: wrap;
   .input-addr {
     width: 432px
