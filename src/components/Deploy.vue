@@ -78,7 +78,7 @@ const onDeployWorldcup = async () => {
 }
 </script>
 <template>
-  <div>
+  <div class="deploy-wrap">
     <el-card class="box-card" :class="{ 'current-step': store.step === 'deploy' }">
       <template #header>
         <div class="card-header">
@@ -86,7 +86,7 @@ const onDeployWorldcup = async () => {
         </div>
       </template>
       <div class="card-info">
-        <div class="flex">
+        <div class="flex info-item">
           <p class="pr20">
             SBT contract is the data contract of Semantic SBT and the contract
             queried by third-party platforms (such as opensea)
@@ -108,7 +108,7 @@ const onDeployWorldcup = async () => {
             </span>
           </a>
         </div>
-        <div class="flex">
+        <div class="flex info-item">
           <p class="pr20">
             The verification contract is used to complete business settings. To
             add a white list, you need to deploy the contract
@@ -134,3 +134,22 @@ const onDeployWorldcup = async () => {
     </el-card>
   </div>
 </template>
+
+<style lang="scss">
+@media screen and (max-width: 992px) {
+  .deploy-wrap {
+    .card-info {
+      .info-item {
+        display: block;
+      }
+      .contract-addr {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+    }
+  }
+}
+</style>

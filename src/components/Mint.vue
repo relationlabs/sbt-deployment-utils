@@ -54,7 +54,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div>
+  <div class="mint-wrap">
     <el-card class="box-card" :class="{ 'current-step': store.step === 'whiteList' }">
       <template #header>
         <div class="card-header">
@@ -65,7 +65,7 @@ onMounted(async () => {
         <div class="flex-align">
           <div>Mint method</div>
           <div class="code-wrap">
-            <code>const result = await contract.mint()</code>
+            <img src="../assets/svg/mint.svg" alt="">
           </div>
         </div>
         <el-row justify="end" class="mb20">
@@ -95,5 +95,24 @@ onMounted(async () => {
   font-size: 14px;
   line-height: 32px;
   margin-left: 16px;
+  img {
+    display: block;
+    width: 100%;
+    max-width: 240px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .mint-wrap {
+    .card-info {
+      .flex-align {
+        display: block;
+        .code-wrap {
+          width: 100%;
+          max-width: 240px;
+          margin: 14px 0;
+        }
+      }
+    }
+  }
 }
 </style>

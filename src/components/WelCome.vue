@@ -94,7 +94,7 @@ const closeDialog = () => {
   <el-dialog
     v-model="dialogVisible"
     title="Functional Testing"
-    width="800px"
+    custom-class="functional-dialog"
     :before-close="closeDialog"
     :close-on-click-modal="false"
   >
@@ -175,6 +175,40 @@ const closeDialog = () => {
       }
     }
  
+  }
+}
+.functional-dialog {
+  width: 800px;
+}
+@media screen and (max-width: 992px) {
+  .functional-dialog {
+    width: 80%;
+    .el-form {
+      .el-form-item {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        .el-form-item__label {
+          width: auto!important;
+          text-align: left;
+        }
+        .el-form-item__content {
+          width: 100%;
+          .input-addr {
+            width: 100%;
+          }
+        }
+        .contract-wrap {
+          .addr-item {
+            width: 100%;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+          }
+        }
+      }
+    }
   }
 }
 </style>

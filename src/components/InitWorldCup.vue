@@ -105,6 +105,7 @@ const initContract = async () => {
           </el-form-item>
         </el-form>
           <el-button
+            class="set-btn"
             type="primary"
             :loading="loading"
             :disabled="disabled || store.step !== 'initWorldCup' || initSuccess"
@@ -152,4 +153,20 @@ const initContract = async () => {
   }
 }
 
+@media screen and (max-width: 992px) {
+  .init-world-cup {
+    .card-info {
+      .set-btn {
+        margin-top: 14px;
+      }
+      .contract-addr {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+      }
+    }
+  }
+}
 </style>

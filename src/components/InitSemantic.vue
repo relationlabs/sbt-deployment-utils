@@ -148,7 +148,7 @@ const closeInitializeDialog = () => {
 
 </script>
 <template>
-  <div>
+  <div class="semantic-wrap">
     <el-card class="box-card" :class="{ 'current-step': store.step === 'initSemantic' }">
       <template #header>
         <div class="card-header">
@@ -188,9 +188,9 @@ const closeInitializeDialog = () => {
     <el-dialog
       v-model="initializeVisible"
       title="Initialize SBT contract"
-      width="800px"
       :before-close="closeInitializeDialog"
       :close-on-click-modal="false"
+      custom-class="semantic-dialog"
     >
       <el-form
         :model="form"
@@ -244,5 +244,35 @@ const closeInitializeDialog = () => {
   width: 0;
   overflow: hidden;
   opacity: 0;
+}
+.semantic-dialog {
+  width: 800px;
+}
+@media screen and (max-width: 992px) {
+  .semantic-wrap {
+    .card-info {
+      h2 {
+        font-size: 14px;
+      }
+    }
+  }
+  .semantic-dialog {
+    width: 80%;
+    .el-form {
+      .el-form-item {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 8px;
+        .el-form-item__label {
+          width: auto!important;
+          text-align: left;
+        }
+        .el-form-item__content {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 </style>

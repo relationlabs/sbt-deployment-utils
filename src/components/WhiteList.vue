@@ -116,7 +116,7 @@ const closeDialog = () => {
               <VList />
             </div>
           </div>
-          <div>
+          <div class="mt14">
             <el-button
               :loading="loading"
               type="primary"
@@ -136,11 +136,11 @@ const closeDialog = () => {
       width="950px"
       :before-close="closeDialog"
       :close-on-click-modal="false"
+      custom-class="whitelist-dialog"
     >
       <div class="whitelist-desc">Please enter all whitelist address separated by “,” or “enter”.</div>
       <el-form
         :model="form"
-        
         ref="ruleFormRef"
         :rules="rules"
         @submit.prevent
@@ -205,6 +205,45 @@ const closeDialog = () => {
     }
   }
 }
-  
+@media screen and (max-width: 992px) {
+  .container {
+    width: 100%;
+    .item {
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+  } 
+  .whitelist-dialog {
+    width: 80%;
+    .whitelist-form {
+      .el-form-item {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        .el-form-item__content {
+          width: 100%;
+        }
+      }
+      .whitelist-input {
+        flex-direction: column;
+        align-items: flex-start;
+        .left {
+          width: 100%;
+          .el-textarea__inner {
+            height: 146px!important;
+            min-height: 146px!important;
+          }
+        }
+        .right {
+          width: 100%;
+          .addr-list, .container {
+            height: 146px;
+          }
+        }
+      }
+    }
+  }
+}
 
 </style>

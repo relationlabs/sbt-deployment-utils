@@ -93,8 +93,8 @@
 <template>
   <div class="head-wrap">
     <div class="part flex">
-      <div class="flex-align logo-wrap" @click="toHome">
-        <el-image class="logo h36 mr20" :src="$getImgUrl('logo.png')" />
+      <div class="logo-wrap" @click="toHome">
+        <el-image class="logo h36" :src="$getImgUrl('logo.png')" />
       </div>
       <div class="flex-align login-btn-wrap">
         <div class="chain-select-wrap" v-if="store.owner">
@@ -121,7 +121,7 @@
           </div>
         </div>
         <div class="owner-info" v-if="store.owner">{{ format(store.owner) }}</div>
-        <el-button type="primary" @click="connect" v-else>
+        <el-button type="primary" @click="connect" v-else class="connect-btn">
           Connect Wallet
         </el-button>
       </div>
@@ -129,7 +129,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .head-wrap {
   position: fixed;
   width: 100%;
@@ -225,6 +225,38 @@
       .icon-down {
         margin-left: 6px;
         font-size: 12px;
+      }
+    }
+    
+  }
+}
+@media screen and (max-width: 992px) {
+  .head-wrap {
+    height: auto;
+    font-size: 12px;
+    .part {
+      padding: 10px;
+    }
+    .logo-wrap {
+      flex-shrink: 0;
+      .el-image {
+        width: 154px;
+        height: 26px;
+      }
+    }
+    .login-btn-wrap {
+      .owner-info, .connect-btn {
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+      .connect-btn {
+        height: 26px;
+      }
+      .chain-select-wrap {
+        margin-right: 8px;
+        .icon-down {
+          margin-left: 2px;
+        }
       }
     }
     

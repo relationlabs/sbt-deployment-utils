@@ -216,4 +216,23 @@ img {
     color: #FF237F;
   }
 }
+
+@media screen and (max-width: 992px) {
+  .main {
+    padding-top: 50px;
+  }
+  .card-header {
+    h1 {
+      font-size: 16px;
+    }
+  }
+  .card-info {
+    .el-row {
+      display: block;
+    }
+  }
+  .el-message-box {
+    width: 80%;
+  }
+}
 </style>
