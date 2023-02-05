@@ -16,9 +16,12 @@ const txHash = ref('')
 const loading = ref(false)
 
 // mint to get a tokenId
-const tokenId = ref(0)
+const tokenId = ref()
 const mintToken = async () => {
-  console.log('%c [ mintToken ]-21', 'font-size:13px; background:pink; color:#bf2c9f;', mintToken)
+  console.log(
+    '%c [ mintToken ]-21',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+  )
   const provider = await getProvider(true)
   if (!provider) return
   loading.value = true
@@ -92,10 +95,19 @@ const updateEncrypt = async () => {
   loading.value = true
   try {
     const signer = provider.getSigner()
-    let contract = new ethers.Contract(store.worldCupContractAddr, abi, signer)
+    let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
     // TODO
-    console.log('%c [ tokenId.value ]-97', 'font-size:13px; background:pink; color:#bf2c9f;', tokenId.value.toString())
-    const result = await contract.mintPrivacy(tokenId.value, 1, `ar://${arHash}`)
+    console.log(
+      '%c [ tokenId.value ]-97',
+      'font-size:13px; background:pink; color:#bf2c9f;',
+      tokenId.value,
+      arHash.value
+    )
+    const result = await contract.mintPrivacy(
+      tokenId.value,
+      1,
+      `ar://${arHash.value}`
+    )
     const wait = await result.wait()
     ElMessage.success('mint success')
     loading.value = false
@@ -149,15 +161,15 @@ onMounted(async () => {
             </div> -->
             <div class="flex-a mt20" v-if="tokenId && !encrypted">
               <span class="mr10">Data to encrypt:</span>
-              <el-input v-model="dataToEncrypt" style="width: 400px;" />
+              <el-input v-model="dataToEncrypt" style="width: 400px" />
             </div>
             <div class="flex-a mt20" v-if="tokenId && encrypted">
               <span class="mr10">arHash:</span>
-              <el-input v-model="arHash" style="width: 400px;" />
+              <el-input v-model="arHash" style="width: 400px" />
             </div>
           </div>
           <div class="r">
-            <el-row justify="end" class="mb20">
+            <el-row justify="end" class="mb20" v-if="!tokenId">
               <el-button
                 type="primary"
                 :loading="loading"
@@ -167,7 +179,7 @@ onMounted(async () => {
                 Mint
               </el-button>
             </el-row>
-            <el-row justify="end" class="mb20">
+            <el-row justify="end" class="mb20" v-if="tokenId && !encrypted">
               <el-button
                 type="primary"
                 :loading="loading"
@@ -177,7 +189,7 @@ onMounted(async () => {
                 EncryptData
               </el-button>
             </el-row>
-            <el-row justify="end" class="mb20">
+            <el-row justify="end" class="mb20" v-if="tokenId && encrypted">
               <el-button
                 type="primary"
                 :loading="loading"

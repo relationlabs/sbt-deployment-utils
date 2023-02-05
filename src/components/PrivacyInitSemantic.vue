@@ -83,17 +83,6 @@ const initContract = async () => {
 
   loading.value = true
   try {
-    console.log(
-      '%c [ store.semanticContractAddr ]-90',
-      'font-size:13px; background:pink; color:#bf2c9f;',
-      store.semanticContractAddr,
-      form.contractName, // name_：
-      form.contractSymbol, // symbol_：
-      form.metadataUri, // baseURI_
-      form.schemaURI, // schemaURI_
-      [], // classes_
-      [[form.predicate, 2]] // predicates_
-    )
     const signer = provider.getSigner()
     let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
     /**
@@ -114,7 +103,7 @@ const initContract = async () => {
       form.metadataUri, // baseURI_
       form.schemaURI, // schemaURI_
       [], // classes_
-      [[form.predicate, 2]] // predicates_
+      [[form.predicate, 1]] // predicates_
     )
 
     const wait = await res.wait()
