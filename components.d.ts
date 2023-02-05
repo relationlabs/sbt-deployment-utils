@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Deploy: typeof import('./src/components/Deploy.vue')['default']
+    'Deploy copy': typeof import('./src/components/Deploy copy.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -16,8 +17,13 @@ declare module '@vue/runtime-core' {
     ElRow: typeof import('element-plus/es')['ElRow']
     Header: typeof import('./src/components/Header.vue')['default']
     InitSemantic: typeof import('./src/components/InitSemantic.vue')['default']
+    'InitSemantic copy': typeof import('./src/components/InitSemantic copy.vue')['default']
     InitWorldCup: typeof import('./src/components/InitWorldCup.vue')['default']
     Mint: typeof import('./src/components/Mint.vue')['default']
+    'Mint copy': typeof import('./src/components/Mint copy.vue')['default']
+    PrivacyDeploy: typeof import('./src/components/PrivacyDeploy.vue')['default']
+    PrivacyInitSemantic: typeof import('./src/components/PrivacyInitSemantic.vue')['default']
+    PrivacyMint: typeof import('./src/components/PrivacyMint.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']

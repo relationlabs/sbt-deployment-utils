@@ -5,7 +5,7 @@ const store = useDeployStore()
 
 const addrForm = reactive({ inputAddr: '' })
 const rules = reactive<FormRules>({
-  inputAddr: [{ required: true, trigger: 'blur', message: '' }],
+  inputAddr: [{ required: true, trigger: 'blur', message: '' }]
 })
 const ruleFormRef = ref<FormInstance>()
 const formValid = async () => {
@@ -14,7 +14,7 @@ const formValid = async () => {
 const confirmAddr = async () => {
   const valid = await formValid()
   if (!valid) return
-  toWhiteList(addrForm.inputAddr);
+  toWhiteList(addrForm.inputAddr)
 }
 const toWhiteList = (addr: string) => {
   store.worldCupContractAddr = addr
@@ -23,19 +23,18 @@ const toWhiteList = (addr: string) => {
 }
 
 const startTo = (step: 'deploy' | 'whiteList') => {
-  store.step = step;
-  store.startFrom = step;
+  store.step = step
+  store.startFrom = step
 }
 
-let dialogVisible = ref(false);
+let dialogVisible = ref(false)
 const openDialog = () => {
-  dialogVisible.value = true;
+  dialogVisible.value = true
 }
 const closeDialog = () => {
-  addrForm.inputAddr = '';
-  dialogVisible.value = false;
+  addrForm.inputAddr = ''
+  dialogVisible.value = false
 }
-
 </script>
 <template>
   <div class="welcome-wrap">
@@ -49,17 +48,29 @@ const closeDialog = () => {
         <el-row justify="space-between" align="top" class="mb20">
           <div class="pr20">
             <div class="mb20">
-              Try to create a new contract according to the template of the Semantic SBT contract.
-            </div>  
+              Try to create a new contract according to the template of the
+              Semantic SBT contract.
+            </div>
           </div>
           <div>
-            <el-button
-              type="primary"
-              :disabled="!store.owner"
-              @click="startTo('deploy')"
-            >
-              Start
-            </el-button>
+            <div>
+              <el-button
+                type="primary"
+                :disabled="!store.owner"
+                @click="startTo('deploy')"
+              >
+                Start
+              </el-button>
+            </div>
+            <div class="mt10">
+              <el-button
+                type="primary"
+                :disabled="!store.owner"
+                @click="() => {startTo('deploy');store.type = 'privacy'}"
+              >
+                Start2
+              </el-button>
+            </div>
           </div>
         </el-row>
       </div>
@@ -75,8 +86,9 @@ const closeDialog = () => {
         <el-row justify="space-between" align="top" class="mb20">
           <div class="pr20">
             <div class="mb20">
-              Input or select a Semantic SBT contract address you deployed, and test the “addWhiteList” and “Mint” function.
-            </div>  
+              Input or select a Semantic SBT contract address you deployed, and
+              test the “addWhiteList” and “Mint” function.
+            </div>
           </div>
           <div>
             <el-button
@@ -117,10 +129,7 @@ const closeDialog = () => {
             v-for="(item, index) in store.cachedDeployedAddr"
             :key="index"
           >
-            <span
-              @click="toWhiteList(item)"
-              class="addr"
-            >
+            <span @click="toWhiteList(item)" class="addr">
               {{ item }}
             </span>
           </div>
@@ -130,9 +139,7 @@ const closeDialog = () => {
     <template #footer>
       <span class="dialog-footer">
         <el-button type="primary" plain @click="closeDialog">Cancel</el-button>
-        <el-button type="success" @click="confirmAddr">
-          Confirm
-        </el-button>
+        <el-button type="success" @click="confirmAddr">Confirm</el-button>
       </span>
     </template>
   </el-dialog>
@@ -148,7 +155,7 @@ const closeDialog = () => {
 .contract-start-form {
   flex-wrap: wrap;
   .input-addr {
-    width: 432px
+    width: 432px;
   }
   .contract-wrap {
     padding: 8px;
@@ -157,11 +164,11 @@ const closeDialog = () => {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 4px;
     overflow-y: scroll;
-    &::-webkit-scrollbar{
-      width:3px;
+    &::-webkit-scrollbar {
+      width: 3px;
     }
-    &::-webkit-scrollbar-thumb{
-      background: rgba($color: #FFFFFF, $alpha: 0.5);
+    &::-webkit-scrollbar-thumb {
+      background: rgba($color: #ffffff, $alpha: 0.5);
       border-radius: 13px;
     }
     .addr-item {
@@ -169,12 +176,11 @@ const closeDialog = () => {
       font-size: 14px;
       line-height: 32px;
       text-decoration-line: underline;
-      color: #FF237F;
+      color: #ff237f;
       .addr {
         cursor: pointer;
       }
     }
- 
   }
 }
 .functional-dialog {
@@ -189,7 +195,7 @@ const closeDialog = () => {
         flex-direction: column;
         align-items: flex-start;
         .el-form-item__label {
-          width: auto!important;
+          width: auto !important;
           text-align: left;
         }
         .el-form-item__content {
@@ -203,8 +209,8 @@ const closeDialog = () => {
             width: 100%;
             display: inline-block;
             overflow: hidden;
-            text-overflow:ellipsis;
-            white-space:nowrap;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }

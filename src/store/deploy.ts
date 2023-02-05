@@ -1,4 +1,5 @@
 type DepolyType = {
+  type: 'normal' | 'privacy'
   deploying: boolean
   step:
     | 'welcome'
@@ -24,11 +25,12 @@ type DepolyType = {
   contractName: string
   contractSymbol: string
   metadataUri: string
-  startFrom:  'deploy' | 'whiteList' | ''
+  startFrom: 'deploy' | 'whiteList' | ''
 }
 
-const getDefaultState:() => DepolyType = () => {
+const getDefaultState: () => DepolyType = () => {
   return {
+    type: 'normal',
     mode: 'test',
     scanUrl: '',
 
@@ -54,7 +56,7 @@ const getDefaultState:() => DepolyType = () => {
     contractName: '', // Relation Activity test
     contractSymbol: '', // REL_TEST
     metadataUri: '',
-    startFrom: '',
+    startFrom: ''
   }
 }
 const store = defineStore('deploy', {
@@ -67,7 +69,7 @@ const store = defineStore('deploy', {
     resetDeployState(state: DepolyType) {
       let cacheTemp = {
         owner: state.owner,
-        cachedDeployedAddr: state.cachedDeployedAddr,
+        cachedDeployedAddr: state.cachedDeployedAddr
       }
       Object.assign(state, getDefaultState(), cacheTemp)
     }

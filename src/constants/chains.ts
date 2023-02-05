@@ -10,6 +10,17 @@ export const ethereumChain = {
   }
 }
 
+export const goerliChain = {
+  chainId: '0x5',
+  chainName: 'Goerli',
+  rpcUrls: ['https://goerli.infura.io/v3/'] /* ... */,
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'GoerliETH',
+    decimals: 18
+  }
+}
+
 export const polygonChain = {
   chainId: '0x89',
   chainName: 'Polygon Mainnet',

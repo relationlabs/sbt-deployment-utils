@@ -8,6 +8,7 @@
     moonbeamChain,
     ethereumChain,
     mumbaiChain,
+    goerliChain
   } from '@/constants/chains'
   const store = useDeployStore()
 
@@ -35,6 +36,7 @@
     { id: parseInt(moonbeamChain.chainId), name: 'Moonbeam', icon: 'moonbeam' },
     { id: parseInt(platonChain.chainId), name: 'PlatON', icon: 'platon' },
     { id: parseInt(mumbaiChain.chainId), name: 'Mumbai', icon: 'polygon' },
+    { id: parseInt(goerliChain.chainId), name: 'Goerli', icon: 'eth' },
   ]
   const currentSelectChain = ref()
 

@@ -8,7 +8,7 @@ import abi from '@/abi/semantic'
 import { ElMessage } from 'element-plus'
 const store = useDeployStore()
 const backTo = () => {
-  store.resetDeployState(store);
+  store.resetDeployState(store)
 }
 </script>
 <template>
@@ -16,53 +16,86 @@ const backTo = () => {
     <Header></Header>
     <div class="card-warp">
       <el-row class="mb24" v-if="!!store.startFrom">
-        <svg-icon 
-          name="arrow"
-          class="icon-back-arrow"
-          @click="backTo"
-        />
+        <svg-icon name="arrow" class="icon-back-arrow" @click="backTo" />
       </el-row>
 
       <WelCome v-if="!store.startFrom" />
 
-      <template v-if="store.startFrom === 'deploy'">
-        <Deploy />
-        <el-row justify="center">
-          <svg-icon
-            name="down"
-            class="icon-step-down"
-            :class="{'icon-current-step-down': store.step === 'initSemantic'}"
-          />
-        </el-row>
-        <InitSemantic />
-        <el-row justify="center">
-          <svg-icon
-            name="down"
-            class="icon-step-down"
-            :class="{'icon-current-step-down': store.step === 'initWorldCup'}"
-          />
-        </el-row>
-        <InitWorldCup />
-        <el-row justify="center">
-          <svg-icon
-            name="down"
-            class="icon-step-down"
-            :class="{'icon-current-step-down': store.step === 'whiteList'}"
-          />
-        </el-row>
-      </template>
-      
-      <template v-if="!!store.startFrom">
-        <WhiteList />
-        <el-row justify="center">
-          <svg-icon
-            name="down"
-            class="icon-step-down"
-            :class="{'icon-current-step-down': store.step === 'whiteList'}"
-          />
-        </el-row>
-        <Mint />
-      </template>
+      <!-- normal sbt -->
+      <div class="" v-if="store.type === 'normal'">
+        <template v-if="store.startFrom === 'deploy'">
+          <Deploy />
+          <el-row justify="center">
+            <svg-icon
+              name="down"
+              class="icon-step-down"
+              :class="{
+                'icon-current-step-down': store.step === 'initSemantic'
+              }"
+            />
+          </el-row>
+          <InitSemantic />
+          <el-row justify="center">
+            <svg-icon
+              name="down"
+              class="icon-step-down"
+              :class="{
+                'icon-current-step-down': store.step === 'initWorldCup'
+              }"
+            />
+          </el-row>
+          <InitWorldCup />
+          <el-row justify="center">
+            <svg-icon
+              name="down"
+              class="icon-step-down"
+              :class="{ 'icon-current-step-down': store.step === 'whiteList' }"
+            />
+          </el-row>
+        </template>
+
+        <template v-if="!!store.startFrom">
+          <WhiteList />
+          <el-row justify="center">
+            <svg-icon
+              name="down"
+              class="icon-step-down"
+              :class="{ 'icon-current-step-down': store.step === 'whiteList' }"
+            />
+          </el-row>
+          <Mint />
+        </template>
+      </div>
+
+      <!-- privacy sbt -->
+      <div class="" v-if="store.type === 'privacy'">
+        <template v-if="store.startFrom === 'deploy'">
+          <PrivacyDeploy />
+          <el-row justify="center">
+            <svg-icon
+              name="down"
+              class="icon-step-down"
+              :class="{
+                'icon-current-step-down': store.step === 'initSemantic'
+              }"
+            />
+          </el-row>
+          <PrivacyInitSemantic />
+          <el-row justify="center">
+            <svg-icon
+              name="down"
+              class="icon-step-down"
+              :class="{
+                'icon-current-step-down': store.step === 'initWorldCup'
+              }"
+            />
+          </el-row>
+        </template>
+
+        <template v-if="!!store.startFrom">
+          <PrivacyMint />
+        </template>
+      </div>
     </div>
   </div>
 </template>
@@ -104,7 +137,6 @@ img {
     margin: 0 auto;
     height: 100%;
   }
-  
 }
 
 .text-wrap {
@@ -160,21 +192,21 @@ img {
   font-weight: 400;
   font-size: 14px;
   line-height: 32px;
-  color: #FF237F;
+  color: #ff237f;
 }
 
 .el-button {
-  min-width: auto!important;;
+  min-width: auto !important;
   padding: 8px 20px;
-  --el-button-bg-color: #FF237F;
-  --el-button-hover-bg-color: #FF237F;
-  --el-button-border-color: #FF237F;
-  --el-button-hover-border-color: #FF237F;
-  --el-button-text-color: #FFFFFF;
-  --el-button-hover-text-color: #FFFFFF;
-  --el-button-active-border-color: #FF237F;
-  --el-button-active-bg-color: #FF237F;
-  --el-button-outline-color: #FF237F;
+  --el-button-bg-color: #ff237f;
+  --el-button-hover-bg-color: #ff237f;
+  --el-button-border-color: #ff237f;
+  --el-button-hover-border-color: #ff237f;
+  --el-button-text-color: #ffffff;
+  --el-button-hover-text-color: #ffffff;
+  --el-button-active-border-color: #ff237f;
+  --el-button-active-bg-color: #ff237f;
+  --el-button-outline-color: #ff237f;
 }
 .el-button--primary {
   --el-button-disabled-bg-color: rgba(255, 255, 255, 0.15);
@@ -182,38 +214,38 @@ img {
   --el-button-disabled-text-color: rgba(255, 255, 255, 0.5);
 }
 .el-button--primary.is-plain {
-  --el-button-bg-color: #1E2021;
-  --el-button-hover-bg-color: #1E2021;
-  --el-button-border-color: #FFFFFF;
-  --el-button-hover-border-color: #FFFFFF;
-  --el-button-text-color: #FFFFFF;
-  --el-button-hover-text-color: #FFFFFF;
-  --el-button-active-border-color: #FFFFFF;
-  --el-button-active-bg-color: #1E2021;
-  --el-button-outline-color: #FFFFFF;
+  --el-button-bg-color: #1e2021;
+  --el-button-hover-bg-color: #1e2021;
+  --el-button-border-color: #ffffff;
+  --el-button-hover-border-color: #ffffff;
+  --el-button-text-color: #ffffff;
+  --el-button-hover-text-color: #ffffff;
+  --el-button-active-border-color: #ffffff;
+  --el-button-active-bg-color: #1e2021;
+  --el-button-outline-color: #ffffff;
 }
 .el-dialog__footer {
   text-align: center;
 }
 .current-step {
-  border: 1px solid #FF237F;
+  border: 1px solid #ff237f;
   opacity: 1;
 }
 
 .icon-step-down {
-  color: rgba($color: #FFFFFF, $alpha: 0.2);
+  color: rgba($color: #ffffff, $alpha: 0.2);
   font-size: 24px;
   margin-bottom: 20px;
 }
 .icon-current-step-down {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .icon-back-arrow {
-  color: #FFFFFF;
+  color: #ffffff;
   transform: rotateY(180deg);
   cursor: pointer;
   &:hover {
-    color: #FF237F;
+    color: #ff237f;
   }
 }
 
