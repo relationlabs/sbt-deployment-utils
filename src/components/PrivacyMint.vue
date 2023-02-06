@@ -3,13 +3,13 @@ import { ethers, providers } from 'ethers'
 import useDeployStore from '@/store/deploy'
 import abi from '@/abi/semanticPrivacy'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { encryptSbtString } from '@/utils/litprotocol'
+import { encryptSbtString, decryptString } from '@/utils/litprotocol'
 const store = useDeployStore()
 
 const curAccount = ref('')
 const dataToEncrypt = ref('')
 const encrypted = ref(false)
-const arHash = ref('1LQj3_jXnDLb9X_uui629l9lZQ5wnX1tHk5EipoETbE')
+const arHash = ref('')
 
 const txHash = ref('')
 
@@ -20,7 +20,7 @@ const tokenId = ref()
 const mintToken = async () => {
   console.log(
     '%c [ mintToken ]-21',
-    'font-size:13px; background:pink; color:#bf2c9f;',
+    'font-size:13px; background:pink; color:#bf2c9f;'
   )
   const provider = await getProvider(true)
   if (!provider) return
@@ -54,8 +54,52 @@ const mintToken = async () => {
 
 // encrypt dataToEncrypt
 const encrypt = async () => {
+  const chain = 'mumbai'
+  const evmContractConditions = [
+    {
+      contractAddress: store.semanticContractAddr,
+      functionName: 'isViewerOf',
+      functionParams: [':userAddress', `${tokenId.value}`],
+      functionAbi: {
+        constant: true,
+        inputs: [
+          {
+            internalType: 'address',
+            name: 'viewer',
+            type: 'address'
+          },
+          {
+            internalType: 'uint256',
+            name: 'tokenId',
+            type: 'uint256'
+          }
+        ],
+        name: 'isViewerOf',
+        outputs: [
+          {
+            internalType: 'bool',
+            name: '',
+            type: 'bool'
+          }
+        ],
+        payable: false,
+        stateMutability: 'view',
+        type: 'function'
+      },
+      chain,
+      returnValueTest: {
+        key: '',
+        comparator: '=',
+        value: 'true'
+      }
+    }
+  ]
   const { base64EncryptedString, base16EncryptedSymmetricKey, accs } =
-    await encryptSbtString({ strToEncrypt: dataToEncrypt.value })
+    await encryptSbtString({
+      strToEncrypt: dataToEncrypt.value,
+      evmContractConditions,
+      chain
+    })
   console.log(
     '%c [ base64EncryptedString, base16EncryptedSymmetricKey, accs ]-50',
     'font-size:13px; background:pink; color:#bf2c9f;',
@@ -63,6 +107,18 @@ const encrypt = async () => {
     base16EncryptedSymmetricKey,
     accs
   )
+
+  // const checkE = await decryptString({
+  //   base16EncryptedSymmetricKey,
+  //   base64EncryptedString,
+  //   evmContractConditions: accs || [],
+  //   chain
+  // })
+  // console.log(
+  //   '%c [ checkE ]-86',
+  //   'font-size:13px; background:pink; color:#bf2c9f;',
+  //   checkE
+  // )
 
   const json = {
     encryptionBy: 'lit-protocol',
@@ -123,6 +179,37 @@ const updateEncrypt = async () => {
   }
 }
 
+const addViewer = async () => {
+  const provider = await getProvider(true)
+  if (!provider) return
+
+  loading.value = true
+  try {
+    const signer = provider.getSigner()
+    // let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
+    // const result = await contract.addViewer('白名单地址', tokenId.value)
+    let contract = new ethers.Contract(
+      '0x4ce6f82Aac7bE9BC3DA6634fDa35bF61851346f0',
+      abi,
+      signer
+    )
+    const result = await contract.addViewer(
+      '0x1E562aaC4BEac450aB98D379Ab0D1D1b44c325b3',
+      '${tokenId}'
+    )
+    const wait = await result.wait()
+    ElMessage.success('add success')
+    loading.value = false
+  } catch (err: any) {
+    logErr(err)
+    loading.value = false
+
+    if (err.code && err.code != 'ACTION_REJECTED') {
+      ElMessageBox.alert(err.reason || err.message)
+    }
+  }
+}
+
 onMounted(async () => {
   if (!window.ethereum) return
 
@@ -153,50 +240,62 @@ onMounted(async () => {
         <!--  -->
         <el-row justify="space-between" class="">
           <div class="l">
-            <!-- <div class="flex-align">
-              <div>Mint method</div>
-              <div class="code-wrap">
-                <img src="../assets/svg/mint.svg" alt="" />
-              </div>
-            </div> -->
-            <div class="flex-a mt20" v-if="tokenId && !encrypted">
+            <div style="height: 50px"></div>
+            <div class="flex mt20">
               <span class="mr10">Data to encrypt:</span>
-              <el-input v-model="dataToEncrypt" style="width: 400px" />
+              <el-input
+                type="textarea"
+                v-model="dataToEncrypt"
+                style="width: 400px"
+                :disabled="store.step !== 'mint' || encrypted"
+              />
             </div>
-            <div class="flex-a mt20" v-if="tokenId && encrypted">
-              <span class="mr10">arHash:</span>
-              <el-input v-model="arHash" style="width: 400px" />
+            <div class="flex-a mt20">
+              <span class="mr10">ArHash:</span>
+              <el-input
+                v-model="arHash"
+                style="width: 400px"
+              />
             </div>
           </div>
           <div class="r">
-            <el-row justify="end" class="mb20" v-if="!tokenId">
+            <!-- <el-row justify="end" class="mb20">
+              <el-button
+                type="primary"
+                :loading="loading"
+                @click="addViewer"
+              >
+                Add Viewer
+              </el-button>
+            </el-row> -->
+            <el-row justify="end" class="mb20">
               <el-button
                 type="primary"
                 :loading="loading"
                 @click="mintToken"
-                :disabled="store.step !== 'mint'"
+                :disabled="store.step !== 'mint' || tokenId"
               >
-                Mint
+                Event
               </el-button>
             </el-row>
-            <el-row justify="end" class="mb20" v-if="tokenId && !encrypted">
+            <el-row justify="end" class="mb20">
               <el-button
                 type="primary"
                 :loading="loading"
                 @click="encrypt"
-                :disabled="store.step !== 'mint'"
+                :disabled="store.step !== 'mint' || !dataToEncrypt || encrypted"
               >
-                EncryptData
+                Private content
               </el-button>
             </el-row>
-            <el-row justify="end" class="mb20" v-if="tokenId && encrypted">
+            <el-row justify="end" class="mb20" >
               <el-button
                 type="primary"
                 :loading="loading"
                 @click="updateEncrypt"
                 :disabled="store.step !== 'mint' || !arHash"
               >
-                EncryptToken
+                Start
               </el-button>
             </el-row>
           </div>

@@ -18,7 +18,7 @@ const form = reactive({
   contractSymbol: '',
   metadataUri: '',
   schemaURI:
-    'https://37breopswtfprd6fdd3vtu44rjn6ulc4frlxb4lejt4bhxrhll2a.arweave.net/38MSOfK0yviPxRj3WdOcilvqLFwsV3DxZEz4E94nWvQ',
+    'https://mca5uhhx5gx77ykbdcewmwc5bpr3w7xnm5bjrsltktjicmfgjkja.arweave.net/YIHaHPfpr__hQRiJZlhdC-O7fu1nQpjJc1TSgTCmSpI',
   className: '',
   predicate: 'privacyData'
 })

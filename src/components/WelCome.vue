@@ -66,9 +66,14 @@ const closeDialog = () => {
               <el-button
                 type="primary"
                 :disabled="!store.owner"
-                @click="() => {startTo('deploy');store.type = 'privacy'}"
+                @click="
+                  () => {
+                    startTo('deploy')
+                    store.type = 'privacy'
+                  }
+                "
               >
-                Start2
+                Event
               </el-button>
             </div>
           </div>
@@ -91,13 +96,15 @@ const closeDialog = () => {
             </div>
           </div>
           <div>
-            <el-button
-              type="primary"
-              :disabled="!store.owner"
-              @click="openDialog"
-            >
-              Start
-            </el-button>
+            <div style="text-align: right;">
+              <el-button
+                type="primary"
+                :disabled="!store.owner"
+                @click="openDialog"
+              >
+                Start
+              </el-button>
+            </div>
           </div>
         </el-row>
       </div>

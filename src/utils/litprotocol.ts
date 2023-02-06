@@ -1,35 +1,28 @@
-import * as LitJsSdk from '@lit-protocol/lit-node-client'
+// import * as LitJsSdk from '@lit-protocol/lit-node-client'
+const LitJsSdk = window.LitJsSdk_litNodeClient
 
 const litNodeClient = new LitJsSdk.LitNodeClient({
   litNetwork: 'serrano'
 })
 
+
 export const encryptSbtString = async ({
   strToEncrypt,
-  chain = 'ethereum'
+  evmContractConditions,
+  chain
 }: {
   strToEncrypt: string
-  chain?: string
+  evmContractConditions?: any[]
+  chain: string
 }) => {
   await litNodeClient.connect()
 
   let authSig = await LitJsSdk.checkAndSignAuthMessage({
     chain
   })
+  console.log('%c [ authSig ]-19', 'font-size:13px; background:pink; color:#bf2c9f;', authSig)
 
-  const accs = [
-    {
-      contractAddress: '0xA80617371A5f511Bf4c1dDf822E6040acaa63e71',
-      standardContractType: 'ERC721',
-      chain: 'polygon',
-      method: 'isViewerOf',
-      parameters: [':userAddress', '${tokenId}'],
-      returnValueTest: {
-        comparator: '=',
-        value: 'true'
-      }
-    }
-  ]
+  const accs = evmContractConditions
   const res = await LitJsSdk.encryptString(strToEncrypt)
   if (!res) throw Error('encrypt error')
   const encryptedString = res.encryptedString
@@ -39,7 +32,7 @@ export const encryptSbtString = async ({
     encryptedString
   )
   const encryptedSymmetricKey = await litNodeClient.saveEncryptionKey({
-    accessControlConditions: accs,
+    evmContractConditions: accs,
     symmetricKey: symmetricKey,
     authSig: authSig,
     chain
@@ -56,4 +49,43 @@ export const encryptSbtString = async ({
     accs,
     authSig
   }
+}
+
+
+export const decryptString = async ({
+  base64EncryptedString,
+  base16EncryptedSymmetricKey,
+  evmContractConditions,
+  cachedAuthSig,
+  chain
+}: {
+  base64EncryptedString: string
+  base16EncryptedSymmetricKey: string
+  evmContractConditions: any[]
+  cachedAuthSig?: any
+  chain: string
+}) => {
+  await litNodeClient.connect()
+  let authSig = cachedAuthSig
+  if (!authSig) {
+    authSig = await LitJsSdk.checkAndSignAuthMessage({
+      chain
+    })
+  }
+
+  const data = {
+    evmContractConditions,
+    toDecrypt: base16EncryptedSymmetricKey,
+    authSig: authSig,
+    chain
+  }
+
+  console.log('%c [ getEncryptionKey ]-35', 'font-size:13px; background:pink; color:#bf2c9f;', data)
+  const encryptionKey = await litNodeClient.getEncryptionKey(data)
+  if (!encryptionKey) return
+
+  const blob = await LitJsSdk.base64StringToBlob(base64EncryptedString)
+  const decryptedString = await LitJsSdk.decryptString(blob, encryptionKey)
+
+  return decryptedString
 }

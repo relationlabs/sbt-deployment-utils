@@ -9,6 +9,8 @@ declare global {
     Buffer: any;
     solana: any;
     okexchain: any;
+
+    LitJsSdk_litNodeClient: any
   }
 }
 

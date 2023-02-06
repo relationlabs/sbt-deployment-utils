@@ -41,7 +41,7 @@ const getDefaultState: () => DepolyType = () => {
     owner: '', // 0x712471f5c366513dD6D25D0Ce9B41291c89bf0d6
 
     // semantic
-    semanticContractAddr: '', // 0x1cBb3AA3337810DaFbBf9796972c667cE553872F
+    semanticContractAddr: '', // 0x839382257991af13443783977b4cba1149412c58
     semanticTxHash: '', //
 
     predicate: '',
