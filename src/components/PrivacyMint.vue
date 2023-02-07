@@ -30,10 +30,10 @@ const mintToken = async () => {
     const signer = provider.getSigner()
     let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
 
-    const result = await contract.prepareTokenId()
+    const result = await contract.prepareToken()
     const wait = await result.wait()
 
-    const id = await contract.ownedPrepareTokenId(store.owner)
+    const id = await contract.ownedPrepareToken(store.owner)
     console.log(
       '%c [ id ]-29',
       'font-size:13px; background:pink; color:#bf2c9f;',
@@ -54,6 +54,7 @@ const mintToken = async () => {
 
 // encrypt dataToEncrypt
 const encrypt = async () => {
+  loading.value = true
   const chain = 'mumbai'
   const evmContractConditions = [
     {
@@ -100,13 +101,6 @@ const encrypt = async () => {
       evmContractConditions,
       chain
     })
-  console.log(
-    '%c [ base64EncryptedString, base16EncryptedSymmetricKey, accs ]-50',
-    'font-size:13px; background:pink; color:#bf2c9f;',
-    base64EncryptedString,
-    base16EncryptedSymmetricKey,
-    accs
-  )
 
   // const checkE = await decryptString({
   //   base16EncryptedSymmetricKey,
@@ -128,7 +122,6 @@ const encrypt = async () => {
     encryptedObject: base64EncryptedString
   }
 
-  //
   const elementA = document.createElement('a')
 
   elementA.download = 'toencrypt.json'
@@ -142,6 +135,7 @@ const encrypt = async () => {
   document.body.removeChild(elementA)
 
   encrypted.value = true
+  loading.value = false
 }
 
 const updateEncrypt = async () => {
@@ -186,17 +180,20 @@ const addViewer = async () => {
   loading.value = true
   try {
     const signer = provider.getSigner()
-    // let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
-    // const result = await contract.addViewer('白名单地址', tokenId.value)
-    let contract = new ethers.Contract(
-      '0x4ce6f82Aac7bE9BC3DA6634fDa35bF61851346f0',
-      abi,
-      signer
-    )
+    let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
     const result = await contract.addViewer(
-      '0x1E562aaC4BEac450aB98D379Ab0D1D1b44c325b3',
-      '${tokenId}'
+      ['0x27b3f793656F58EB40725FFfd794F0F74999d832'],
+      1
     )
+    // let contract = new ethers.Contract(
+    //   '0x4ce6f82Aac7bE9BC3DA6634fDa35bF61851346f0',
+    //   abi,
+    //   signer
+    // )
+    // const result = await contract.addViewer(
+    //   '0x1E562aaC4BEac450aB98D379Ab0D1D1b44c325b3',
+    //   '${tokenId}'
+    // )
     const wait = await result.wait()
     ElMessage.success('add success')
     loading.value = false
@@ -238,28 +235,7 @@ onMounted(async () => {
       </template>
       <div class="card-info">
         <!--  -->
-        <el-row justify="space-between" class="">
-          <div class="l">
-            <div style="height: 50px"></div>
-            <div class="flex mt20">
-              <span class="mr10">Data to encrypt:</span>
-              <el-input
-                type="textarea"
-                v-model="dataToEncrypt"
-                style="width: 400px"
-                :disabled="store.step !== 'mint' || encrypted"
-              />
-            </div>
-            <div class="flex-a mt20">
-              <span class="mr10">ArHash:</span>
-              <el-input
-                v-model="arHash"
-                style="width: 400px"
-              />
-            </div>
-          </div>
-          <div class="r">
-            <!-- <el-row justify="end" class="mb20">
+        <!-- <el-row justify="end" class="mb20">
               <el-button
                 type="primary"
                 :loading="loading"
@@ -268,37 +244,50 @@ onMounted(async () => {
                 Add Viewer
               </el-button>
             </el-row> -->
-            <el-row justify="end" class="mb20">
-              <el-button
-                type="primary"
-                :loading="loading"
-                @click="mintToken"
-                :disabled="store.step !== 'mint' || tokenId"
-              >
-                Event
-              </el-button>
-            </el-row>
-            <el-row justify="end" class="mb20">
-              <el-button
-                type="primary"
-                :loading="loading"
-                @click="encrypt"
-                :disabled="store.step !== 'mint' || !dataToEncrypt || encrypted"
-              >
-                Private content
-              </el-button>
-            </el-row>
-            <el-row justify="end" class="mb20" >
-              <el-button
-                type="primary"
-                :loading="loading"
-                @click="updateEncrypt"
-                :disabled="store.step !== 'mint' || !arHash"
-              >
-                Start
-              </el-button>
-            </el-row>
+        <el-row justify="end" class="mb20">
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="mintToken"
+            :disabled="store.step !== 'mint' || tokenId"
+          >
+            Event
+          </el-button>
+        </el-row>
+        <el-row justify="space-between" class="mb20">
+          <div class="flex">
+            <span class="mr10">Data to encrypt:</span>
+            <el-input
+              type="textarea"
+              v-model="dataToEncrypt"
+              style="width: 400px"
+              :disabled="store.step !== 'mint' || encrypted"
+            />
           </div>
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="encrypt"
+            :disabled="
+              store.step !== 'mint' || !tokenId || !dataToEncrypt || encrypted
+            "
+          >
+            Private content
+          </el-button>
+        </el-row>
+        <el-row justify="space-between" class="mb20">
+          <div class="flex-a">
+            <span class="mr10">ArHash:</span>
+            <el-input v-model="arHash" style="width: 400px" />
+          </div>
+          <el-button
+            type="primary"
+            :loading="loading"
+            @click="updateEncrypt"
+            :disabled="store.step !== 'mint' || !tokenId || !arHash"
+          >
+            Start
+          </el-button>
         </el-row>
 
         <el-row v-if="txHash">
