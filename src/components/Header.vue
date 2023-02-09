@@ -21,7 +21,7 @@
     const accounts = await provider.send('eth_requestAccounts', [])
     store.owner = accounts[0]
 
-    store.cachedDeployedAddr = getUserWorldCupAddr(accounts[0])
+    store.userDeployedAddrList = await userDeployedContractList(accounts[0])
   }
   const format = (str: string) => {
     return str.substring(0, 5) + '...' + str.substring(str.length - 5)

@@ -92,6 +92,9 @@ const backTo = () => {
           </el-row>
         </template>
 
+        <!-- <template v-if="store.startFrom === 'whiteList'">
+          <PrivacyWhiteList />
+        </template> -->
         <template v-if="!!store.startFrom">
           <PrivacyMint />
         </template>

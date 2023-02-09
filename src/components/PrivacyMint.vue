@@ -16,7 +16,6 @@ const txHash = ref('')
 const loadingCreate = ref(false)
 
 // mint to get a tokenId
-const tokenId = ref()
 const mintToken = async () => {
   console.log(
     '%c [ mintToken ]-21',
@@ -40,7 +39,7 @@ const mintToken = async () => {
       id,
       parseInt(id)
     )
-    tokenId.value = parseInt(id)
+    store.currentPrivateTokenId = parseInt(id)
     loadingCreate.value = false
   } catch (err: any) {
     logErr(err)
@@ -56,7 +55,7 @@ const mintToken = async () => {
 const loadingEncrypt = ref(false)
 const encryptDataLink = ref()
 const disableEncrypt = computed(
-  () => store.step !== 'mint' || !tokenId.value || encrypted.value
+  () => store.step !== 'mint' || !store.currentPrivateTokenId || encrypted.value
 )
 const encrypt = async () => {
   if (disableEncrypt.value) return
@@ -68,7 +67,7 @@ const encrypt = async () => {
     {
       contractAddress: store.semanticContractAddr,
       functionName: 'isViewerOf',
-      functionParams: [':userAddress', `${tokenId.value}`],
+      functionParams: [':userAddress', `${store.currentPrivateTokenId}`],
       functionAbi: {
         constant: true,
         inputs: [
@@ -148,7 +147,8 @@ const encrypt = async () => {
 }
 
 const disableMint = computed(
-  () => store.step !== 'mint' || !tokenId.value || !arHash.value || txHash.value
+  () =>
+    store.step !== 'mint' || !store.currentPrivateTokenId || !arHash.value || !!txHash.value
 )
 const loadingMint = ref(false)
 const mintPrivacy = async () => {
@@ -161,13 +161,13 @@ const mintPrivacy = async () => {
     let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
     // TODO
     console.log(
-      '%c [ tokenId.value ]-97',
+      '%c [ store.currentPrivateTokenId ]-97',
       'font-size:13px; background:pink; color:#bf2c9f;',
-      tokenId.value,
+      store.currentPrivateTokenId,
       arHash.value
     )
     const result = await contract.mintPrivacy(
-      tokenId.value,
+      store.currentPrivateTokenId,
       1,
       `ar://${arHash.value}`
     )
@@ -220,7 +220,37 @@ const addViewer = async () => {
   }
 }
 
+const getToken = async () => {
+  const provider = await getProvider(true)
+  if (!provider) return
+  let contract = new ethers.Contract(store.semanticContractAddr, abi)
+  try {
+    const signer = provider.getSigner()
+    let contract = new ethers.Contract(store.semanticContractAddr, abi, signer)
+    const result = await contract.ownedPrepareToken(store.owner)
+    if (+result) {
+      store.currentPrivateTokenId = +result
+    }
+  } catch (error) {
+    console.log(
+      '%c [ error ]-241',
+      'font-size:13px; background:pink; color:#bf2c9f;',
+      error
+    )
+  }
+  // store.
+}
 onMounted(async () => {
+  console.log(
+    '%c [ store.startFrom ]-229',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    store.startFrom,
+    store.step
+  )
+  if (store.startFrom === 'whiteList') {
+    getToken()
+  }
+
   if (!window.ethereum) return
 
   const provider = new providers.Web3Provider(window.ethereum)
@@ -241,7 +271,7 @@ onMounted(async () => {
       <template #header>
         <div class="card-header">
           <h1>
-            <span>3.</span>
+            <span v-if="store.startFrom !== 'whiteList'">3.</span>
             Mint
           </h1>
         </div>
@@ -263,7 +293,7 @@ onMounted(async () => {
             type="primary"
             :loading="loadingCreate"
             @click="mintToken"
-            :disabled="store.step !== 'mint' || tokenId"
+            :disabled="store.step !== 'mint' || !!store.currentPrivateTokenId"
           >
             Create
           </el-button>

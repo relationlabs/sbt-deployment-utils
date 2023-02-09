@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ethers, providers } from 'ethers'
 import useDeployStore from '@/store/deploy'
 import { FormInstance, FormRules } from 'element-plus'
 const store = useDeployStore()
@@ -16,10 +17,28 @@ const confirmAddr = async () => {
   if (!valid) return
   toWhiteList(addrForm.inputAddr)
 }
-const toWhiteList = (addr: string) => {
-  store.worldCupContractAddr = addr
+const toWhiteList = async (addr: string, type?: number) => {
+  addr = addr.replace(/\s/, '')
+  console.log(
+    '%c [ type ]-21',
+    'font-size:13px; background:pink; color:#bf2c9f;',
+    type
+  )
+  if (typeof type === 'undefined') {
+    const res = await getContractDetail(addr)
+    type = res.contractType
+  }
+  if (typeof type === 'number' && type === 2) {
+    store.type = 'privacy'
+    store.semanticContractAddr = addr
+    startTo('whiteList')
+    store.step = 'mint'
+  } else {
+    store.worldCupContractAddr = addr
+    startTo('whiteList')
+  }
+
   closeDialog()
-  startTo('whiteList')
 }
 
 const startTo = (step: 'deploy' | 'whiteList') => {
@@ -143,11 +162,14 @@ const closeDialog = () => {
         <div class="contract-wrap">
           <div
             class="addr-item"
-            v-for="(item, index) in store.cachedDeployedAddr"
+            v-for="(item, index) in store.userDeployedAddrList"
             :key="index"
           >
-            <span @click="toWhiteList(item)" class="addr">
-              {{ item }}
+            <span
+              @click="toWhiteList(item.contractAddress, item.contractType)"
+              class="addr"
+            >
+              {{ item.contractAddress }}
             </span>
           </div>
         </div>

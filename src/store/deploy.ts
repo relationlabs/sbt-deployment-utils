@@ -1,3 +1,13 @@
+type Contract = {
+  contractAddress: string
+  chainName: string
+  name: string
+  imageUrl: string
+  itemsCount?: number
+  ownersCount: string
+  contractType: number
+}
+
 type DepolyType = {
   type: 'normal' | 'privacy'
   deploying: boolean
@@ -11,7 +21,7 @@ type DepolyType = {
   owner: string
   mode: 'test' | 'prod'
   scanUrl: string
-  cachedDeployedAddr: string[]
+  userDeployedAddrList: Contract[]
 
   semanticContractAddr: string
   semanticTxHash: string
@@ -26,6 +36,8 @@ type DepolyType = {
   contractSymbol: string
   metadataUri: string
   startFrom: 'deploy' | 'whiteList' | ''
+
+  currentPrivateTokenId: number
 }
 
 const getDefaultState: () => DepolyType = () => {
@@ -36,7 +48,7 @@ const getDefaultState: () => DepolyType = () => {
 
     step: 'welcome',
     deploying: false,
-    cachedDeployedAddr: [],
+    userDeployedAddrList: [],
 
     owner: '',
 
@@ -56,7 +68,9 @@ const getDefaultState: () => DepolyType = () => {
     contractName: '', // Relation Activity test
     contractSymbol: '', // REL_TEST
     metadataUri: '',
-    startFrom: ''
+    startFrom: '',
+
+    currentPrivateTokenId: 0
   }
 }
 const store = defineStore('deploy', {
@@ -69,7 +83,7 @@ const store = defineStore('deploy', {
     resetDeployState(state: DepolyType) {
       let cacheTemp = {
         owner: state.owner,
-        cachedDeployedAddr: state.cachedDeployedAddr
+        userDeployedAddrList: state.userDeployedAddrList
       }
       Object.assign(state, getDefaultState(), cacheTemp)
     }

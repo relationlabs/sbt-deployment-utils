@@ -23,7 +23,9 @@ export default defineConfig({
             'logErr', // import { logErr } from '@/utils/utils',
             'getProvider',
             'getUserWorldCupAddr',
-            'saveUserWorldCupAddr'
+            'saveUserWorldCupAddr',
+            'userDeployedContractList',
+            'getContractDetail'
           ]
         }
       ],

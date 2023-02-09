@@ -21,12 +21,14 @@ declare module '@vue/runtime-core' {
     PrivacyDeploy: typeof import('./src/components/PrivacyDeploy.vue')['default']
     PrivacyInitSemantic: typeof import('./src/components/PrivacyInitSemantic.vue')['default']
     PrivacyMint: typeof import('./src/components/PrivacyMint.vue')['default']
+    PrivacyWhiteList: typeof import('./src/components/PrivacyWhiteList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/SvgIcon.vue')['default']
     VList: typeof import('./src/components/VList.vue')['default']
     WelCome: typeof import('./src/components/WelCome.vue')['default']
     WhiteList: typeof import('./src/components/WhiteList.vue')['default']
+    'WhiteList copy': typeof import('./src/components/PrivacyWhiteList.vue')['default']
   }
 }
 

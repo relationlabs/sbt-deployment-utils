@@ -76,3 +76,23 @@ export const saveUserWorldCupAddr = (account: string, addr: string) => {
 
   localStorage.setItem(key, JSON.stringify(cache))
 }
+
+export const userDeployedContractList = async (addr: string) => {
+  const res = await fetch(
+    'https://dp06l4ayzt2t9.cloudfront.net/api/v1/account/own/contract?walletAddress=' +
+      addr
+  ).then((r) => r.json())
+  if (+res.code !== 0) return []
+
+  return res?.data?.ownContracts || []
+}
+
+export const getContractDetail = async (addr: string) => {
+  const res = await fetch(
+    'https://dp06l4ayzt2t9.cloudfront.net/api/v1/collection?contractAddress=' +
+      addr
+  ).then((r) => r.json())
+  if (+res.code !== 0) return []
+
+  return res?.data || {}
+}
