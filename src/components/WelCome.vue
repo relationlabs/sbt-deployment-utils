@@ -52,30 +52,31 @@ const closeDialog = () => {
               Semantic SBT contract.
             </div>
           </div>
+        </el-row>
+
+        <el-row justify="end">
           <div>
-            <div>
-              <el-button
-                type="primary"
-                :disabled="!store.owner"
-                @click="startTo('deploy')"
-              >
-                Start
-              </el-button>
-            </div>
-            <div class="mt10">
-              <el-button
-                type="primary"
-                :disabled="!store.owner"
-                @click="
-                  () => {
-                    startTo('deploy')
-                    store.type = 'privacy'
-                  }
-                "
-              >
-                Event
-              </el-button>
-            </div>
+            <el-button
+              type="primary"
+              :disabled="!store.owner"
+              @click="startTo('deploy')"
+            >
+              Event
+            </el-button>
+          </div>
+          <div class="ml20">
+            <el-button
+              type="primary"
+              :disabled="!store.owner"
+              @click="
+                () => {
+                  startTo('deploy')
+                  store.type = 'privacy'
+                }
+              "
+            >
+              Private content
+            </el-button>
           </div>
         </el-row>
       </div>
@@ -95,17 +96,26 @@ const closeDialog = () => {
               test the “addWhiteList” and “Mint” function.
             </div>
           </div>
-          <div>
-            <div style="text-align: right;">
-              <el-button
-                type="primary"
-                :disabled="!store.owner"
-                @click="openDialog"
-              >
-                Start
-              </el-button>
-            </div>
+        </el-row>
+        <el-row justify="end">
+          <div style="text-align: right">
+            <el-button
+              type="primary"
+              :disabled="!store.owner"
+              @click="openDialog"
+            >
+              Start
+            </el-button>
           </div>
+          <!-- <div style="text-align: right">
+            <el-button
+              type="primary"
+              :disabled="!store.owner"
+              @click="openDialog"
+            >
+              Start2
+            </el-button>
+          </div> -->
         </el-row>
       </div>
     </el-card>

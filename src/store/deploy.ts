@@ -38,18 +38,18 @@ const getDefaultState: () => DepolyType = () => {
     deploying: false,
     cachedDeployedAddr: [],
 
-    owner: '', // 0x712471f5c366513dD6D25D0Ce9B41291c89bf0d6
+    owner: '',
 
     // semantic
-    semanticContractAddr: '', // 0x839382257991af13443783977b4cba1149412c58
-    semanticTxHash: '', //
+    semanticContractAddr: '',
+    semanticTxHash: '',
 
     predicate: '',
     className: '',
 
     // activity contract
-    worldCupContractAddr: '', // 0xfa2563b0c30c20b6388dd97397ccea47e4b1d086
-    worldCupTxHash: '', //
+    worldCupContractAddr: '',
+    worldCupTxHash: '',
 
     whiteList: [],
 

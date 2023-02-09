@@ -50,8 +50,7 @@ const onDeploySeman = async () => {
       <div class="card-info">
         <div class="flex info-item">
           <p class="pr20">
-            SBT contract is the data contract of Semantic SBT and the contract
-            queried by third-party platforms (such as opensea)
+            Try to create a new contract according to the template of the Semantic SBT contract.
           </p>
           <el-button
             type="primary"
@@ -59,7 +58,7 @@ const onDeploySeman = async () => {
             :disabled="!store.owner || !!store.semanticContractAddr || store.step !== 'deploy'"
             @click="onDeploySeman"
           >
-            {{ !!store.semanticContractAddr ? 'Completed' : 'Deploy SBT contract' }}
+            {{ !!store.semanticContractAddr ? 'Completed' : 'Deploy' }}
           </el-button>
         </div>
 

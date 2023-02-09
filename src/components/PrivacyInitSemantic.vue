@@ -131,6 +131,7 @@ const openInitializeDialog = () => {
 const closeInitializeDialog = () => {
   initializeVisible.value = false
 }
+
 </script>
 <template>
   <div class="semantic-wrap">
@@ -146,17 +147,7 @@ const closeInitializeDialog = () => {
       <div class="card-info">
         <el-row justify="space-between" align="bottom" class="mb20">
           <div class="pr20">
-            <h2>How to builde BaseURI</h2>
-            <p>
-              metadataUri: The directory where metadata json data is stored.
-              This directory stores the json data of each token.
-            </p>
-
-            <p class="text-wrap">e.g: https://ipfs.io/ipfsyouripfshash/</p>
-
-            <p>The json data of each token is in the following format:</p>
-            <vue-json-pretty :data="json" />
-            <code></code>
+            Set the basic information of the contract.
           </div>
 
           <el-button
@@ -194,15 +185,18 @@ const closeInitializeDialog = () => {
         <el-form-item label="baseURI" prop="metadataUri">
           <el-input v-model="form.metadataUri" />
           <div class="lh24 fs12">
-            You can build the baseurl like ERC721, and upload the directory file
-            of the baseurl here
+            <div>
+              You can build the baseurl like ERC721, and upload the directory
+              file of the baseurl here.
+            </div>
+            <div class="">eg: https://sbt0.io/sbt/polygon/privacy/json/</div>
           </div>
         </el-form-item>
         <el-form-item label="schemaURI" prop="schemaURI">
-          <el-input v-model="form.schemaURI" />
+          <el-input v-model="form.schemaURI" disabled />
         </el-form-item>
         <el-form-item label="predicate" prop="predicate">
-          <el-input v-model="form.predicate" />
+          <el-input v-model="form.predicate" disabled />
         </el-form-item>
       </el-form>
       <template #footer>

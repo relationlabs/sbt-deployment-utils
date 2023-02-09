@@ -158,19 +158,7 @@ const closeInitializeDialog = () => {
       <div class="card-info">
         <el-row justify="space-between" align="bottom" class="mb20">
           <div class="pr20">
-            <h2>How to builde BaseURI</h2>
-            <p>
-              metadataUri: The directory where metadata json data is stored. This
-              directory stores the json data of each token.
-            </p>
-
-            <p class="text-wrap">
-              e.g: https://ipfs.io/ipfsyouripfshash/
-            </p>
-
-            <p>The json data of each token is in the following format:</p>
-            <vue-json-pretty :data="json" />
-            <code></code>
+            Set the basic information of the contract.
           </div>
 
           <el-button
