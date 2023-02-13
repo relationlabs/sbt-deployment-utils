@@ -148,7 +148,10 @@ const encrypt = async () => {
 
 const disableMint = computed(
   () =>
-    store.step !== 'mint' || !store.currentPrivateTokenId || !arHash.value || !!txHash.value
+    store.step !== 'mint' ||
+    !store.currentPrivateTokenId ||
+    !arHash.value ||
+    !!txHash.value
 )
 const loadingMint = ref(false)
 const mintPrivacy = async () => {
@@ -295,7 +298,7 @@ onMounted(async () => {
             @click="mintToken"
             :disabled="store.step !== 'mint' || !!store.currentPrivateTokenId"
           >
-            Create
+            {{ store.currentPrivateTokenId ? 'Completed' : 'Create' }}
           </el-button>
         </el-row>
         <el-row justify="space-between" class="mb40">
@@ -329,7 +332,7 @@ onMounted(async () => {
             @click="encrypt"
             :class="{ 'is-disabled': disableEncrypt }"
           >
-            Encrypto
+            {{ encryptDataLink ? 'Completed' : 'Encrypto' }}
           </el-button>
         </el-row>
         <el-row justify="space-between" class="mb20">
@@ -353,7 +356,7 @@ onMounted(async () => {
             @click="mintPrivacy"
             :disabled="disableMint"
           >
-            Mint
+            {{ arHash ? 'Completed' : 'Mint' }}
           </el-button>
         </el-row>
       </div>

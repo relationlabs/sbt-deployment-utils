@@ -28,7 +28,6 @@ declare module '@vue/runtime-core' {
     VList: typeof import('./src/components/VList.vue')['default']
     WelCome: typeof import('./src/components/WelCome.vue')['default']
     WhiteList: typeof import('./src/components/WhiteList.vue')['default']
-    'WhiteList copy': typeof import('./src/components/PrivacyWhiteList.vue')['default']
   }
 }
 
