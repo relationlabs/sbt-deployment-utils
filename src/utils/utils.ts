@@ -2,6 +2,7 @@ import { ethers, providers } from 'ethers'
 import useDeployStore from '@/store/deploy'
 import { ElMessageBox } from 'element-plus'
 
+const apiDomain = import.meta.env.VITE_API_DOMAIN
 const mode = import.meta.env.MODE
 const limitChain = [80001, 210425, 1284, 137, 2206132, 1, 5]
 const net = 'Ethereum/Polygon/Moonbeam/PlatON'
@@ -79,8 +80,7 @@ export const saveUserWorldCupAddr = (account: string, addr: string) => {
 
 export const userDeployedContractList = async (addr: string) => {
   const res = await fetch(
-    'https://dp06l4ayzt2t9.cloudfront.net/api/v1/account/own/contract?walletAddress=' +
-      addr
+    `${apiDomain}/api/v1/account/own/contract?walletAddress=` + addr
   ).then((r) => r.json())
   if (+res.code !== 0) return []
 
@@ -89,8 +89,7 @@ export const userDeployedContractList = async (addr: string) => {
 
 export const getContractDetail = async (addr: string) => {
   const res = await fetch(
-    'https://dp06l4ayzt2t9.cloudfront.net/api/v1/collection?contractAddress=' +
-      addr
+    `${apiDomain}/api/v1/collection?contractAddress=` + addr
   ).then((r) => r.json())
   if (+res.code !== 0) return []
 
