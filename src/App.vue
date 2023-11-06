@@ -1,15 +1,15 @@
 <script setup lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import { ethers, providers } from 'ethers'
-import VueJsonPretty from 'vue-json-pretty'
-import useDeployStore from '@/store/deploy'
-import abi from '@/abi/semantic'
-import { ElMessage } from 'element-plus'
-const store = useDeployStore()
+import { ethers, providers } from 'ethers';
+import VueJsonPretty from 'vue-json-pretty';
+import useDeployStore from '@/store/deploy';
+import abi from '@/abi/semantic';
+import { ElMessage } from 'element-plus';
+const store = useDeployStore();
 const backTo = () => {
-  store.resetDeployState(store)
-}
+  store.resetDeployState(store);
+};
 </script>
 <template>
   <div class="main">
@@ -30,7 +30,7 @@ const backTo = () => {
               name="down"
               class="icon-step-down"
               :class="{
-                'icon-current-step-down': store.step === 'initSemantic'
+                'icon-current-step-down': store.step === 'initSemantic',
               }"
             />
           </el-row>
@@ -40,7 +40,7 @@ const backTo = () => {
               name="down"
               class="icon-step-down"
               :class="{
-                'icon-current-step-down': store.step === 'initWorldCup'
+                'icon-current-step-down': store.step === 'initWorldCup',
               }"
             />
           </el-row>
@@ -76,7 +76,7 @@ const backTo = () => {
               name="down"
               class="icon-step-down"
               :class="{
-                'icon-current-step-down': store.step === 'initSemantic'
+                'icon-current-step-down': store.step === 'initSemantic',
               }"
             />
           </el-row>
@@ -86,7 +86,7 @@ const backTo = () => {
               name="down"
               class="icon-step-down"
               :class="{
-                'icon-current-step-down': store.step === 'initWorldCup'
+                'icon-current-step-down': store.step === 'initWorldCup',
               }"
             />
           </el-row>

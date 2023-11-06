@@ -6,9 +6,9 @@ export const ethereumChain = {
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 export const goerliChain = {
   chainId: '0x5',
@@ -17,9 +17,20 @@ export const goerliChain = {
   nativeCurrency: {
     name: 'ETH',
     symbol: 'GoerliETH',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
+
+export const bscChain = {
+  chainId: '0x38',
+  chainName: 'BSC',
+  rpcUrls: ['https://mainnet.infura.io/v3/'] /* ... */,
+  nativeCurrency: {
+    name: 'BNB',
+    symbol: 'BNB',
+    decimals: 18,
+  },
+};
 
 export const polygonChain = {
   chainId: '0x89',
@@ -28,9 +39,9 @@ export const polygonChain = {
   nativeCurrency: {
     name: 'MATIC',
     symbol: 'MATIC',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 export const mumbaiChain = {
   chainId: '0x13881',
@@ -39,9 +50,9 @@ export const mumbaiChain = {
   nativeCurrency: {
     name: 'MATIC',
     symbol: 'MATIC',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 // platon mainnet
 export const platonChain = {
@@ -51,9 +62,9 @@ export const platonChain = {
   nativeCurrency: {
     name: 'lat',
     symbol: 'lat',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 // platon 测试网
 export const platonTest2Chain = {
@@ -63,9 +74,9 @@ export const platonTest2Chain = {
   nativeCurrency: {
     name: 'lat',
     symbol: 'lat',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 // Moonbeam
 export const moonbeamChain = {
@@ -75,9 +86,9 @@ export const moonbeamChain = {
   nativeCurrency: {
     name: 'GLMR',
     symbol: 'GLMR',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 // Moonbase Alpha
 export const moonbeamTestChain = {
@@ -87,9 +98,9 @@ export const moonbeamTestChain = {
   nativeCurrency: {
     name: 'DEV',
     symbol: 'DEV',
-    decimals: 18
-  }
-}
+    decimals: 18,
+  },
+};
 
 export const chainNameIdMap: any = {
   ethereum: 1,
@@ -101,18 +112,18 @@ export const chainNameIdMap: any = {
   platon_dev: 2206132,
 
   moonbeam: 1284,
-  moonbase: 1287
-}
+  moonbase: 1287,
+};
 
 export const chainIdNameMap: any = {
   1: 'ethereum',
-  
+
   137: 'polygon',
   80001: 'mumbai',
-  
+
   210425: 'platon',
   2206132: 'platon_dev',
 
   1284: 'moonbeam',
-  1287: 'moonbase'
-}
+  1287: 'moonbase',
+};

@@ -1,98 +1,98 @@
 <script setup lang="ts">
-  import { ElMessageBox } from 'element-plus'
-  import useDeployStore from '@/store/deploy'
-  import { checkChain, getCurChain } from '@/utils/providers';
-  import {
-    polygonChain,
-    platonChain,
-    moonbeamChain,
-    ethereumChain,
-    mumbaiChain,
-    goerliChain
-  } from '@/constants/chains'
-  const store = useDeployStore()
+import { ElMessageBox } from 'element-plus';
+import useDeployStore from '@/store/deploy';
+import { checkChain, getCurChain } from '@/utils/providers';
+import {
+  polygonChain,
+  platonChain,
+  moonbeamChain,
+  ethereumChain,
+  mumbaiChain,
+  goerliChain,
+  bscChain,
+} from '@/constants/chains';
+const store = useDeployStore();
 
-  const errNetwork = ref(false)
-  const connect = async () => {
-    const provider = await getProvider()
-    if (!provider) return (errNetwork.value = true)
+const errNetwork = ref(false);
+const connect = async () => {
+  const provider = await getProvider();
+  if (!provider) return (errNetwork.value = true);
 
-    errNetwork.value = false
-    const accounts = await provider.send('eth_requestAccounts', [])
-    store.owner = accounts[0]
+  errNetwork.value = false;
+  const accounts = await provider.send('eth_requestAccounts', []);
+  store.owner = accounts[0];
 
-    store.userDeployedAddrList = await userDeployedContractList(accounts[0])
-  }
-  const format = (str: string) => {
-    return str.substring(0, 5) + '...' + str.substring(str.length - 5)
-  }
-  defineExpose({
-    connect,
-  })
+  store.userDeployedAddrList = await userDeployedContractList(accounts[0]);
+};
+const format = (str: string) => {
+  return str.substring(0, 5) + '...' + str.substring(str.length - 5);
+};
+defineExpose({
+  connect,
+});
 
-  const chains = [
-    { id: parseInt(ethereumChain.chainId), name: 'Ethereum', icon: 'eth' },
-    { id: parseInt(polygonChain.chainId), name: 'Polygon', icon: 'polygon' },
-    { id: parseInt(moonbeamChain.chainId), name: 'Moonbeam', icon: 'moonbeam' },
-    { id: parseInt(platonChain.chainId), name: 'PlatON', icon: 'platon' },
-    { id: parseInt(mumbaiChain.chainId), name: 'Mumbai', icon: 'polygon' },
-    { id: parseInt(goerliChain.chainId), name: 'Goerli', icon: 'eth' },
-  ]
-  const currentSelectChain = ref()
+const chains = [
+  { id: parseInt(ethereumChain.chainId), name: 'Ethereum', icon: 'eth' },
+  { id: parseInt(polygonChain.chainId), name: 'Polygon', icon: 'polygon' },
+  { id: parseInt(moonbeamChain.chainId), name: 'Moonbeam', icon: 'moonbeam' },
+  { id: parseInt(platonChain.chainId), name: 'PlatON', icon: 'platon' },
+  { id: parseInt(bscChain.chainId), name: 'BSC', icon: 'platon' },
+  { id: parseInt(mumbaiChain.chainId), name: 'Mumbai', icon: 'polygon' },
+  { id: parseInt(goerliChain.chainId), name: 'Goerli', icon: 'eth' },
+  // { id: parseInt(b.chainId), name: 'Goerli', icon: 'eth' },
+];
+const currentSelectChain = ref();
 
-  const onChangeChain = async (chain: any) => {
-    if (chain.id === currentSelectChain.value?.id) return
-    ElMessageBox.confirm(
-      'Switching the network will reset the previous operation！',
-      'Switching Networks',
-      {
-        confirmButtonText: 'Yes',
-        showCancelButton: false,
-      }
-    )
+const onChangeChain = async (chain: any) => {
+  if (chain.id === currentSelectChain.value?.id) return;
+  ElMessageBox.confirm(
+    'Switching the network will reset the previous operation！',
+    'Switching Networks',
+    {
+      confirmButtonText: 'Yes',
+      showCancelButton: false,
+    },
+  )
     .then(async () => {
       try {
-        const check = await checkChain(chain.id)
-        if(!check) return
+        const check = await checkChain(chain.id);
+        if (!check) return;
 
-        currentSelectChain.value = chain
-      } catch (error) {
-      }
+        currentSelectChain.value = chain;
+      } catch (error) {}
     })
-    .catch(() => {
-      
-    })
-  }
+    .catch(() => {});
+};
 
-  onMounted(async () => {
-    try {
-      const curChainId = await getCurChain()
-      const chain = chains.find((e) => e.id === curChainId)
+onMounted(async () => {
+  try {
+    const curChainId = await getCurChain();
+    const chain = chains.find((e) => e.id === curChainId);
 
-      currentSelectChain.value = chain
+    currentSelectChain.value = chain;
 
-      // on chain changed
-      if (window.ethereum) {
-        window.ethereum.on('chainChanged', (chainId: string) => {
-          const id = parseInt(chainId)
-          
-          const chain = chains.find((e) => e.id === id)
-          if (chain) {
-            currentSelectChain.value = chain
-            store.resetDeployState(store);
-          } else {
-            location.reload();
-          }
-        })
-      }
-    } catch (error) {
-      // 
+    // on chain changed
+    if (window.ethereum) {
+      window.ethereum.on('chainChanged', (chainId: string) => {
+        const id = parseInt(chainId);
+
+        const chain = chains.find((e) => e.id === id);
+        if (chain) {
+          currentSelectChain.value = chain;
+          store.resetDeployState(store);
+        } else {
+          location.reload();
+        }
+      });
     }
-  })
-
-  const toHome = () => {
-    store.resetDeployState(store);
+  } catch (error) {
+    //
   }
+});
+
+const toHome = () => {
+  store.resetDeployState(store);
+};
 </script>
 <template>
   <div class="head-wrap">
@@ -104,7 +104,10 @@
         <div class="chain-select-wrap" v-if="store.owner">
           <div class="current-select flex-align">
             <div class="flex-align">
-              <svg-icon :name="`chains-${currentSelectChain?.icon}`" class="icon-net" />
+              <svg-icon
+                :name="`chains-${currentSelectChain?.icon}`"
+                class="icon-net"
+              />
               <span>{{ currentSelectChain?.name }}</span>
             </div>
             <svg-icon class="icon-down" :name="`down`" />
@@ -113,7 +116,7 @@
             <div class="option-list">
               <div
                 class="option-item flex-align"
-                :class="{'option-active': item.id === currentSelectChain?.id}"
+                :class="{ 'option-active': item.id === currentSelectChain?.id }"
                 v-for="item in chains"
                 :key="item.id"
                 @click="onChangeChain(item)"
@@ -124,7 +127,9 @@
             </div>
           </div>
         </div>
-        <div class="owner-info" v-if="store.owner">{{ format(store.owner) }}</div>
+        <div class="owner-info" v-if="store.owner">
+          {{ format(store.owner) }}
+        </div>
         <el-button type="primary" @click="connect" v-else class="connect-btn">
           Connect Wallet
         </el-button>
@@ -142,7 +147,7 @@
   top: 0;
   transform: translate(-50%);
   z-index: 9;
-  background: rgb(0,0,0);
+  background: rgb(0, 0, 0);
   height: 100px;
 
   .logo-wrap {
@@ -152,13 +157,13 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 32px;
-    color: #FFFFFF;
+    color: #ffffff;
 
     .logo-separator {
       display: inline-block;
       width: 1px;
       height: 10px;
-      background: #FFFFFF;
+      background: #ffffff;
       opacity: 0.3;
       margin: 0 8px;
     }
@@ -173,7 +178,7 @@
       border-radius: 32px;
       font-weight: 600;
       line-height: 1;
-      color: #FFFFFF;
+      color: #ffffff;
     }
   }
   .chain-select-wrap {
@@ -183,9 +188,9 @@
       .current-select {
         .icon-down {
           transform: rotateX(180deg);
-        } 
+        }
       }
-      
+
       .option-wrap {
         visibility: visible;
       }
@@ -197,7 +202,7 @@
       visibility: hidden;
 
       .option-list {
-        background: #282A2B;
+        background: #282a2b;
         border: 1px solid #424343;
         border-radius: 4px;
         padding: 4px;
@@ -219,7 +224,8 @@
         }
       }
     }
-    .current-select, .option-item {
+    .current-select,
+    .option-item {
       cursor: pointer;
       .icon-net {
         font-size: 16px;
@@ -231,7 +237,6 @@
         font-size: 12px;
       }
     }
-    
   }
 }
 @media screen and (max-width: 992px) {
@@ -249,7 +254,8 @@
       }
     }
     .login-btn-wrap {
-      .owner-info, .connect-btn {
+      .owner-info,
+      .connect-btn {
         padding: 6px 8px;
         font-size: 12px;
       }
@@ -263,7 +269,6 @@
         }
       }
     }
-    
   }
 }
 </style>
