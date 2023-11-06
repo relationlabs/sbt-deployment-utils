@@ -24,7 +24,7 @@ export const goerliChain = {
 export const bscChain = {
   chainId: '0x38',
   chainName: 'BSC',
-  rpcUrls: ['https://mainnet.infura.io/v3/'] /* ... */,
+  rpcUrls: ['https://binance.llamarpc.com'] /* ... */,
   nativeCurrency: {
     name: 'BNB',
     symbol: 'BNB',
