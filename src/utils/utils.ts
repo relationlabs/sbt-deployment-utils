@@ -4,8 +4,8 @@ import { ElMessageBox } from 'element-plus';
 
 const apiDomain = import.meta.env.VITE_API_DOMAIN;
 const mode = import.meta.env.MODE;
-const limitChain = [80001, 210425, 1284, 137, 2206132, 1, 5, 56];
-const net = 'Ethereum/Polygon/Moonbeam/PlatON';
+const limitChain = [80001, 210425, 1284, 137, 2206132, 1, 5, 56, 195];
+const net = 'Ethereum/Polygon/Moonbeam/PlatON/Bsc/X1Testnet';
 const scanMap: any = {
   137: 'https://polygonscan.com/tx/',
   1284: 'https://moonbeam.moonscan.io/tx/',
@@ -13,6 +13,7 @@ const scanMap: any = {
   2206132: 'https://devnet2scan.platon.network/trade-detail?txHash=',
   56: 'https://bscscan.com/tx/',
   80001: 'https://mumbai.polygonscan.com/tx/',
+  195: 'https://www.oklink.com/cn/x1-test/tx/',
 };
 
 export const logErr = (err: any) => {

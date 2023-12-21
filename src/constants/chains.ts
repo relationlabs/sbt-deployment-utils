@@ -102,6 +102,17 @@ export const moonbeamTestChain = {
   },
 };
 
+export const x1TestChain = {
+  chainId: '0xc3',
+  chainName: 'X1 Testnet',
+  rpcUrls: ['https://x1testrpc.okx.com'] /* ... */,
+  nativeCurrency: {
+    name: 'OKB',
+    symbol: 'OKB',
+    decimals: 18,
+  },
+};
+
 export const chainNameIdMap: any = {
   ethereum: 1,
 

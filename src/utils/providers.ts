@@ -7,6 +7,7 @@ import {
   moonbeamTestChain,
   ethereumChain,
   bscChain,
+  x1TestChain,
 } from './../constants/chains';
 import { ethers, providers } from 'ethers';
 
@@ -20,6 +21,8 @@ const chainMap: any = {
   80001: mumbaiChain,
 
   56: bscChain,
+
+  195: x1TestChain,
 
   210425: platonChain,
   2206132: platonTest2Chain,
