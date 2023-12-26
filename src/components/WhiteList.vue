@@ -124,7 +124,8 @@ const onSetFreeMint = async () => {
       <template #header>
         <div class="card-header">
           <h1>
-            <span v-if="store.startFrom !== 'whiteList'">4. </span>Add Whitelist
+            <span v-if="store.startFrom !== 'whiteList'">4. </span
+            >{{ store.isFreeMint ? 'Set Freemint' : 'Add Whitelist' }}
           </h1>
         </div>
       </template>

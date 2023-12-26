@@ -81,7 +81,7 @@ const closeDialog = () => {
               :disabled="!store.owner"
               @click="startTo('deploy', true)"
             >
-              Free Event
+              Free Mint
             </el-button>
           </div>
           <div class="ml20">
