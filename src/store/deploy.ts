@@ -1,44 +1,45 @@
 type Contract = {
-  contractAddress: string
-  chainName: string
-  name: string
-  imageUrl: string
-  itemsCount?: number
-  ownersCount: string
-  contractType: number
-}
+  contractAddress: string;
+  chainName: string;
+  name: string;
+  imageUrl: string;
+  itemsCount?: number;
+  ownersCount: string;
+  contractType: number;
+};
 
 type DepolyType = {
-  type: 'normal' | 'privacy'
-  deploying: boolean
+  type: 'normal' | 'privacy';
+  isFreeMint: boolean;
+  deploying: boolean;
   step:
     | 'welcome'
     | 'deploy'
     | 'initSemantic'
     | 'initWorldCup'
     | 'whiteList'
-    | 'mint'
-  owner: string
-  mode: 'test' | 'prod'
-  scanUrl: string
-  userDeployedAddrList: Contract[]
+    | 'mint';
+  owner: string;
+  mode: 'test' | 'prod';
+  scanUrl: string;
+  userDeployedAddrList: Contract[];
 
-  semanticContractAddr: string
-  semanticTxHash: string
-  predicate: string
-  className: string
-  worldCupContractAddr: string
-  worldCupTxHash: string
+  semanticContractAddr: string;
+  semanticTxHash: string;
+  predicate: string;
+  className: string;
+  worldCupContractAddr: string;
+  worldCupTxHash: string;
 
-  whiteList: string[]
+  whiteList: string[];
 
-  contractName: string
-  contractSymbol: string
-  metadataUri: string
-  startFrom: 'deploy' | 'whiteList' | ''
+  contractName: string;
+  contractSymbol: string;
+  metadataUri: string;
+  startFrom: 'deploy' | 'whiteList' | '';
 
-  currentPrivateTokenId: number
-}
+  currentPrivateTokenId: number;
+};
 
 const getDefaultState: () => DepolyType = () => {
   return {
@@ -70,9 +71,9 @@ const getDefaultState: () => DepolyType = () => {
     metadataUri: '',
     startFrom: '',
 
-    currentPrivateTokenId: 0
-  }
-}
+    currentPrivateTokenId: 0,
+  };
+};
 const store = defineStore('deploy', {
   // persist: {
   //   enabled: true
@@ -83,11 +84,11 @@ const store = defineStore('deploy', {
     resetDeployState(state: DepolyType) {
       let cacheTemp = {
         owner: state.owner,
-        userDeployedAddrList: state.userDeployedAddrList
-      }
-      Object.assign(state, getDefaultState(), cacheTemp)
-    }
-  }
-})
+        userDeployedAddrList: state.userDeployedAddrList,
+      };
+      Object.assign(state, getDefaultState(), cacheTemp);
+    },
+  },
+});
 
-export default store
+export default store;

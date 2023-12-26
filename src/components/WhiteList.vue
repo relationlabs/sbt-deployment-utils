@@ -1,113 +1,134 @@
 <script setup lang="ts">
-import useDeployStore from '@/store/deploy'
-import { ethers, providers } from 'ethers'
-import {
-  ElMessage,
-  ElMessageBox,
-  FormInstance,
-  FormRules
-} from 'element-plus'
-import abi from '@/abi/activity'
-const store = useDeployStore()
+import useDeployStore from '@/store/deploy';
+import { ethers, providers } from 'ethers';
+import { ElMessage, ElMessageBox, FormInstance, FormRules } from 'element-plus';
+import abi from '@/abi/activity';
+const store = useDeployStore();
 
-const loading = ref(false)
+console.log(store);
 
-const ruleFormRef = ref<FormInstance>()
-const form = reactive({ whitelist: '' })
+const loading = ref(false);
+
+const ruleFormRef = ref<FormInstance>();
+const form = reactive({ whitelist: '' });
 const rules = reactive<FormRules>({
-  whitelist: [{ required: true, trigger: 'blur', message: '' }]
-})
+  whitelist: [{ required: true, trigger: 'blur', message: '' }],
+});
 
 const formValid = async () => {
-  return new Promise((r) => ruleFormRef.value?.validate(r))
-}
+  return new Promise((r) => ruleFormRef.value?.validate(r));
+};
 const submit = async () => {
-  const valid = await formValid()
-  if (!valid) return
+  const valid = await formValid();
+  if (!valid) return;
 
-  const provider = await getProvider()
-  if (!provider) return
+  const provider = await getProvider();
+  if (!provider) return;
 
-  loading.value = true
+  loading.value = true;
   // addWhiteList
   try {
-    const provider = new providers.Web3Provider(window.ethereum)
-    const accounts = await provider.send('eth_requestAccounts', [])
+    const provider = new providers.Web3Provider(window.ethereum);
+    const accounts = await provider.send('eth_requestAccounts', []);
     if (accounts[0].toLowerCase() !== store.owner.toLowerCase()) {
-      ElMessageBox.alert('Please switch account to ' + store.owner)
-      loading.value = false
-      return
+      ElMessageBox.alert('Please switch account to ' + store.owner);
+      loading.value = false;
+      return;
     }
-    const signer = provider.getSigner()
-    let contract = new ethers.Contract(store.worldCupContractAddr, abi, signer)
+    const signer = provider.getSigner();
+    let contract = new ethers.Contract(store.worldCupContractAddr, abi, signer);
     const list = form.whitelist
       .replace(/\s|\n/g, ',')
       .split(',')
-      .filter((e) => e)
-    const res = await contract.addWhiteList(list)
+      .filter((e) => e);
+    const res = await contract.addWhiteList(list);
 
-    const wait = await res.wait()
+    const wait = await res.wait();
 
     for (let index = 0; index < list.length; index++) {
-      const e = list[index].toLowerCase()
+      const e = list[index].toLowerCase();
       if (store.whiteList.indexOf(e) === -1) {
-        store.whiteList.push(e)
+        store.whiteList.push(e);
       }
     }
 
-    ElMessage.success('success')
+    ElMessage.success('success');
 
-    closeDialog()
+    closeDialog();
   } catch (err: any) {
-    logErr(err)
+    logErr(err);
     if (err.code && err.code != 'ACTION_REJECTED') {
-      ElMessageBox.alert(err.reason || err.message)
+      ElMessageBox.alert(err.reason || err.message);
     }
   }
-  loading.value = false
-}
+  loading.value = false;
+};
 
 const getOldWhiteList = async () => {
   try {
-    const provider = await getProvider()
-    if (!provider) return
-    const signer = provider.getSigner()
-    let contract = new ethers.Contract(store.worldCupContractAddr, abi, signer)
-    const list = await contract.whiteListRange(0, 10000)
+    const provider = await getProvider();
+    if (!provider) return;
+    const signer = provider.getSigner();
+    let contract = new ethers.Contract(store.worldCupContractAddr, abi, signer);
+    const list = await contract.whiteListRange(0, 10000);
 
-    store.whiteList = list.map((e: any) => e.toLowerCase())
+    store.whiteList = list.map((e: any) => e.toLowerCase());
   } catch (err: any) {
-    logErr(err)
+    logErr(err);
     if (err.code && err.code != 'ACTION_REJECTED') {
-      ElMessageBox.alert(err.reason || err.message)
+      ElMessageBox.alert(err.reason || err.message);
     }
   }
-}
+};
 
 onMounted(async () => {
   if (store.startFrom === 'whiteList') {
-    getOldWhiteList()
+    getOldWhiteList();
   }
-})
+});
 
 let dialogVisible = ref(false);
 const openDialog = () => {
-  form.whitelist = ''
+  form.whitelist = '';
   dialogVisible.value = true;
-}
+};
 const closeDialog = () => {
   dialogVisible.value = false;
-}
+};
+
+const onSetFreeMint = async () => {
+  loading.value = true;
+  try {
+    const provider = await getProvider();
+    if (!provider) return;
+    const signer = provider.getSigner();
+    let contract = new ethers.Contract(store.worldCupContractAddr, abi, signer);
+
+    const tx = await contract.setFreeMintable(true);
+    await tx.wait();
+    if (store.worldCupContractAddr) {
+      store.step = 'mint';
+    }
+  } catch (error) {
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 <template>
   <div>
-    <el-card class="box-card" :class="{ 'current-step': store.step === 'whiteList' }">
+    <el-card
+      class="box-card"
+      :class="{ 'current-step': store.step === 'whiteList' }"
+    >
       <template #header>
         <div class="card-header">
-          <h1><span v-if="store.startFrom !== 'whiteList'">4. </span>Add Whitelist</h1>
+          <h1>
+            <span v-if="store.startFrom !== 'whiteList'">4. </span>Add Whitelist
+          </h1>
         </div>
       </template>
-      
+
       <div class="card-info">
         <el-row justify="space-between" align="top" class="mb20">
           <div class="pr20">
@@ -116,7 +137,7 @@ const closeDialog = () => {
               <VList />
             </div>
           </div>
-          <div class="mt14">
+          <div class="mt14" v-if="!store.isFreeMint">
             <el-button
               :loading="loading"
               type="primary"
@@ -124,6 +145,17 @@ const closeDialog = () => {
               :disabled="store.step !== 'whiteList'"
             >
               Add
+            </el-button>
+          </div>
+
+          <div class="mt14" v-else>
+            <el-button
+              :loading="loading"
+              type="primary"
+              @click="onSetFreeMint"
+              :disabled="store.step !== 'whiteList'"
+            >
+              Set Free
             </el-button>
           </div>
         </el-row>
@@ -138,7 +170,9 @@ const closeDialog = () => {
       :close-on-click-modal="false"
       custom-class="whitelist-dialog"
     >
-      <div class="whitelist-desc">Please enter all whitelist address separated by “,” or “enter”.</div>
+      <div class="whitelist-desc">
+        Please enter all whitelist address separated by “,” or “enter”.
+      </div>
       <el-form
         :model="form"
         ref="ruleFormRef"
@@ -165,7 +199,9 @@ const closeDialog = () => {
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" plain @click="closeDialog">Cancel</el-button>
+          <el-button type="primary" plain @click="closeDialog"
+            >Cancel</el-button
+          >
           <el-button type="success" :loading="loading" @click="submit">
             Add
           </el-button>
@@ -198,7 +234,8 @@ const closeDialog = () => {
     .right {
       flex: 1;
       width: 400px;
-      .addr-list, .container {
+      .addr-list,
+      .container {
         height: 346px;
         box-sizing: border-box;
       }
@@ -210,10 +247,10 @@ const closeDialog = () => {
     width: 100%;
     .item {
       overflow: hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-  } 
+  }
   .whitelist-dialog {
     width: 80%;
     .whitelist-form {
@@ -231,13 +268,14 @@ const closeDialog = () => {
         .left {
           width: 100%;
           .el-textarea__inner {
-            height: 146px!important;
-            min-height: 146px!important;
+            height: 146px !important;
+            min-height: 146px !important;
           }
         }
         .right {
           width: 100%;
-          .addr-list, .container {
+          .addr-list,
+          .container {
             height: 146px;
           }
         }
@@ -245,5 +283,4 @@ const closeDialog = () => {
     }
   }
 }
-
 </style>

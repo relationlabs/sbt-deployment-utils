@@ -1,59 +1,60 @@
 <script setup lang="ts">
-import { ethers, providers } from 'ethers'
-import useDeployStore from '@/store/deploy'
-import { FormInstance, FormRules } from 'element-plus'
-const store = useDeployStore()
+import { ethers, providers } from 'ethers';
+import useDeployStore from '@/store/deploy';
+import { FormInstance, FormRules } from 'element-plus';
+const store = useDeployStore();
 
-const addrForm = reactive({ inputAddr: '' })
+const addrForm = reactive({ inputAddr: '' });
 const rules = reactive<FormRules>({
-  inputAddr: [{ required: true, trigger: 'blur', message: '' }]
-})
-const ruleFormRef = ref<FormInstance>()
+  inputAddr: [{ required: true, trigger: 'blur', message: '' }],
+});
+const ruleFormRef = ref<FormInstance>();
 const formValid = async () => {
-  return new Promise((r) => ruleFormRef.value?.validate(r))
-}
+  return new Promise((r) => ruleFormRef.value?.validate(r));
+};
 const confirmAddr = async () => {
-  const valid = await formValid()
-  if (!valid) return
-  toWhiteList(addrForm.inputAddr)
-}
+  const valid = await formValid();
+  if (!valid) return;
+  toWhiteList(addrForm.inputAddr);
+};
 const toWhiteList = async (addr: string, type?: number) => {
-  addr = addr.replace(/\s/, '')
+  addr = addr.replace(/\s/, '');
   console.log(
     '%c [ type ]-21',
     'font-size:13px; background:pink; color:#bf2c9f;',
-    type
-  )
+    type,
+  );
   if (typeof type === 'undefined') {
-    const res = await getContractDetail(addr)
-    type = res.contractType
+    const res = await getContractDetail(addr);
+    type = res.contractType;
   }
   if (typeof type === 'number' && type === 2) {
-    store.type = 'privacy'
-    store.semanticContractAddr = addr
-    startTo('whiteList')
-    store.step = 'mint'
+    store.type = 'privacy';
+    store.semanticContractAddr = addr;
+    startTo('whiteList');
+    store.step = 'mint';
   } else {
-    store.worldCupContractAddr = addr
-    startTo('whiteList')
+    store.worldCupContractAddr = addr;
+    startTo('whiteList');
   }
 
-  closeDialog()
-}
+  closeDialog();
+};
 
-const startTo = (step: 'deploy' | 'whiteList') => {
-  store.step = step
-  store.startFrom = step
-}
+const startTo = (step: 'deploy' | 'whiteList', isFreeMint: boolean = false) => {
+  store.step = step;
+  store.startFrom = step;
+  store.isFreeMint = isFreeMint;
+};
 
-let dialogVisible = ref(false)
+let dialogVisible = ref(false);
 const openDialog = () => {
-  dialogVisible.value = true
-}
+  dialogVisible.value = true;
+};
 const closeDialog = () => {
-  addrForm.inputAddr = ''
-  dialogVisible.value = false
-}
+  addrForm.inputAddr = '';
+  dialogVisible.value = false;
+};
 </script>
 <template>
   <div class="welcome-wrap">
@@ -78,6 +79,15 @@ const closeDialog = () => {
             <el-button
               type="primary"
               :disabled="!store.owner"
+              @click="startTo('deploy', true)"
+            >
+              Free Event
+            </el-button>
+          </div>
+          <div class="ml20">
+            <el-button
+              type="primary"
+              :disabled="!store.owner"
               @click="startTo('deploy')"
             >
               Event
@@ -89,8 +99,8 @@ const closeDialog = () => {
               :disabled="!store.owner"
               @click="
                 () => {
-                  startTo('deploy')
-                  store.type = 'privacy'
+                  startTo('deploy');
+                  store.type = 'privacy';
                 }
               "
             >

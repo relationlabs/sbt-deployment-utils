@@ -38,7 +38,7 @@ const chains = [
   { id: parseInt(moonbeamChain.chainId), name: 'Moonbeam', icon: 'moonbeam' },
   { id: parseInt(platonChain.chainId), name: 'PlatON', icon: 'platon' },
   { id: parseInt(bscChain.chainId), name: 'BSC', icon: 'bsc' },
-  { id: parseInt(x1TestChain.chainId), name: 'X1Testnet', icon: 'eth' },
+  { id: parseInt(x1TestChain.chainId), name: 'X1Testnet', icon: 'X1testnet' },
   { id: parseInt(mumbaiChain.chainId), name: 'Mumbai', icon: 'polygon' },
   { id: parseInt(goerliChain.chainId), name: 'Goerli', icon: 'eth' },
   // { id: parseInt(b.chainId), name: 'Goerli', icon: 'eth' },
