@@ -3,7 +3,7 @@ import { ethers, providers } from 'ethers'
 import useDeployStore from '@/store/deploy'
 import abi from '@/abi/semanticPrivacy'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { encryptSbtString, decryptString } from '@/utils/litprotocol'
+// import { encryptSbtString, decryptString } from '@/utils/litprotocol'
 const store = useDeployStore()
 
 const curAccount = ref('')
@@ -102,12 +102,15 @@ const encrypt = async () => {
       }
     }
   ]
-  const { base64EncryptedString, base16EncryptedSymmetricKey, accs } =
-    await encryptSbtString({
-      strToEncrypt: dataToEncrypt.value,
-      evmContractConditions,
-      chain
-    })
+  const base64EncryptedString = "";
+  const base16EncryptedSymmetricKey = "";
+  const accs = "";
+//   const { base64EncryptedString, base16EncryptedSymmetricKey, accs } =
+//     await encryptSbtString({
+//       strToEncrypt: dataToEncrypt.value,
+//       evmContractConditions,
+//       chain
+//     })
 
   // const checkE = await decryptString({
   //   base16EncryptedSymmetricKey,
